@@ -53,10 +53,23 @@ python -c "from django.core.management.utils import get_random_secret_key; print
 2. Если используете Dockerfile, убедитесь что порт берётся из `$PORT` (Railway автоматически его устанавливает)
 3. Нажмите "Deploy"
 
-### Шаг 5: Первоначальная настройка
+### Шаг 5: Переменные для автоматической настройки
 
-После успешного деплоя выполните в терминале Railway (или через CLI):
+Добавьте переменные для автоматического создания суперпользователя (опционально):
 
+```
+DJANGO_SUPERUSER_PHONE=+79990000000
+DJANGO_SUPERUSER_PASSWORD=ваш-безопасный-пароль
+DJANGO_SUPERUSER_NAME=Admin
+```
+
+**Важно:** Эти переменные используются только при первом запуске. Если суперпользователь уже существует, команда пропустит создание.
+
+### Шаг 6: Первоначальная настройка
+
+Миграции выполнятся автоматически при деплое. Если добавили переменные выше, суперпользователь создастся автоматически.
+
+Если нужен доступ к терминалу (Railway Pro):
 ```bash
 railway run python manage.py migrate
 railway run python manage.py createsuperuser --phone +79990000000 --name "Admin"
@@ -81,7 +94,11 @@ railway run python manage.py createsuperuser --phone +79990000000 --name "Admin"
 - **Name:** `alihouse` (или любое другое)
 - **Environment:** `Python 3`
 - **Build Command:** `pip install -r requirements.txt && python manage.py collectstatic --noinput`
-- **Start Command:** `gunicorn core.wsgi:application --bind 0.0.0.0:$PORT`
+- **Start Command:** `python manage.py migrate --noinput && gunicorn core.wsgi:application --bind 0.0.0.0:$PORT --workers 2`
+
+**Примечание:** 
+- Если используете `Procfile`, Render автоматически возьмёт команду оттуда
+- Суперпользователь создастся автоматически при первом запуске (если переменные `DJANGO_SUPERUSER_*` установлены)
 
 ### Шаг 3: Настройка базы данных
 
@@ -104,15 +121,23 @@ CSRF_TRUSTED_ORIGINS=https://ваш-домен.onrender.com
 DJANGO_ENV=production
 ```
 
-### Шаг 5: Деплой и миграции
+### Шаг 5: Переменные для автоматической настройки
+
+Добавьте переменные для автоматического создания суперпользователя (опционально):
+
+```
+DJANGO_SUPERUSER_PHONE=+79990000000
+DJANGO_SUPERUSER_PASSWORD=ваш-безопасный-пароль
+DJANGO_SUPERUSER_NAME=Admin
+```
+
+**Важно:** Суперпользователь создастся автоматически при первом запуске приложения (после миграций). Если суперпользователь уже существует, создание будет пропущено.
+
+### Шаг 6: Деплой
 
 1. Нажмите "Create Web Service"
-2. После деплоя откройте "Shell" в Render Dashboard
-3. Выполните:
-   ```bash
-   python manage.py migrate
-   python manage.py createsuperuser --phone +79990000000 --name "Admin"
-   ```
+2. Миграции выполнятся автоматически при деплое
+3. Суперпользователь создастся автоматически при первом запуске (если переменные установлены)
 
 ## Проверка после деплоя
 

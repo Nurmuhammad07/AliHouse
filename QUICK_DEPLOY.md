@@ -11,17 +11,23 @@
    ALLOWED_HOSTS=*.railway.app
    CSRF_TRUSTED_ORIGINS=https://*.railway.app
    ```
-4. **После деплоя:** Railway → Deployments → View Logs → Terminal:
-   ```bash
-   python manage.py createsuperuser --phone +79990000000 --name "Admin"
+4. **Автоматическое создание админа (опционально):**
+   Добавьте переменные:
    ```
+   DJANGO_SUPERUSER_PHONE=+79990000000
+   DJANGO_SUPERUSER_PASSWORD=ваш-пароль
+   DJANGO_SUPERUSER_NAME=Admin
+   ```
+   Суперпользователь создастся автоматически при первом запуске.
 
 ## Минимальные шаги для Render
 
 1. **Создайте Web Service:** New + → Web Service → Connect GitHub repo
 2. **Настройки:**
    - Build: `pip install -r requirements.txt && python manage.py collectstatic --noinput`
-   - Start: `gunicorn core.wsgi:application --bind 0.0.0.0:$PORT`
+   - Start: `python manage.py migrate --noinput && gunicorn core.wsgi:application --bind 0.0.0.0:$PORT --workers 2`
+   - **Или:** Render автоматически использует `Procfile` (миграции уже включены)
+   - **Суперпользователь:** создастся автоматически при первом запуске (если переменные установлены)
 3. **Создайте PostgreSQL:** New + → PostgreSQL
 4. **Переменные окружения:**
    ```
@@ -31,7 +37,14 @@
    ALLOWED_HOSTS=*.onrender.com
    CSRF_TRUSTED_ORIGINS=https://*.onrender.com
    ```
-5. **После деплоя:** Shell → `python manage.py createsuperuser`
+5. **Автоматическое создание админа (опционально):**
+   Добавьте переменные:
+   ```
+   DJANGO_SUPERUSER_PHONE=+79990000000
+   DJANGO_SUPERUSER_PASSWORD=ваш-пароль
+   DJANGO_SUPERUSER_NAME=Admin
+   ```
+   Суперпользователь создастся автоматически при первом запуске.
 
 ## Генерация SECRET_KEY
 
