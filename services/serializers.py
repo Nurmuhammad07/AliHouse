@@ -4,9 +4,20 @@ from .models import Customer, Feedback, Order, OrderComment, Service, User
 
 
 class ServiceSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    
     class Meta:
         model = Service
         fields = ("id", "title", "price", "description")
+    
+    def get_title(self, obj):
+        """Возвращает название на текущем языке."""
+        return obj.get_title()
+    
+    def get_description(self, obj):
+        """Возвращает описание на текущем языке."""
+        return obj.get_description()
 
 
 class OrderSerializer(serializers.ModelSerializer):

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ service.get_title }} | AliHouse{% endblock %}
+{% block content %}
+<section class="narrow">
+    <a href="{% url 'services:service_list' %}" class="button ghost" style="margin-bottom: 1.5rem;">← {% trans "Назад к каталогу" %}</a>
+    
+    <div class="card">
+        <h1>{{ service.get_title }}</h1>
+        
+        <div style="margin: 1.5rem 0;">
+            {% if service.price_type == "fixed" %}
+                <p class="price" style="font-size: 2rem; margin-bottom: 0.5rem;">{{ service.price }} {% trans "So'm" %}</p>
+            {% else %}
+                <p class="price" style="font-size: 1.5rem; margin-bottom: 0.5rem;">
+                        {% trans "от" %} {{ service.min_price|default:service.price }} {% trans "So'm" %}
+                    {% if service.price_unit %}{% trans "за" %} {{ service.price_unit }}{% endif %}
+                </p>
+            {% endif %}
+        </div>
+
+        {% if service.get_description %}
+        <div style="margin-bottom: 2rem;">
+            <h3>{% trans "Краткое описание" %}</h3>
+            <p>{{ service.get_description }}</p>
+        </div>
+        {% endif %}
+
+        {% if service.get_detailed_description %}
+        <div style="margin-bottom: 2rem;">
+            <h3>{% trans "Подробное описание" %}</h3>
+            <p style="line-height: 1.8; white-space: pre-line;">{{ service.get_detailed_description }}</p>
+        </div>
+        {% endif %}
+
+        {% if service.get_history_achievements %}
+        <div style="margin-bottom: 2rem; padding: 1.5rem; background: var(--surface-muted); border-radius: 12px;">
+            <h3>{% trans "История и достижения" %}</h3>
+            <p style="line-height: 1.8; white-space: pre-line;">{{ service.get_history_achievements }}</p>
+        </div>
+        {% endif %}
+
+        {% if service.price_type != "fixed" %}
+        <div class="card" style="background: var(--accent-muted); border: 1px solid var(--accent); margin: 2rem 0;">
+            <h3>{% trans "Калькулятор цены" %}</h3>
+            <p class="muted" style="margin-bottom: 1rem;">
+                {% if service.price_type == "per_sqm" %}
+                    {% trans "Введите площадь помещения для расчета стоимости" %}
+                {% elif service.price_type == "per_hour" %}
+                    {% trans "Введите количество часов для расчета стоимости" %}
+                {% elif service.price_type == "per_item" %}
+                    {% trans "Введите количество единиц для расчета стоимости" %}
+                {% endif %}
+            </p>
+            <form method="post" style="margin-top: 1rem;">
+                {% csrf_token %}
+                
+                {% if service.price_type == "per_sqm" %}
+                    <div class="form-field">
+                        {{ calculator_form.sqm.label_tag }}
+                        {{ calculator_form.sqm }}
+                        {{ calculator_form.sqm.errors }}
+                    </div>
+                {% elif service.price_type == "per_hour" %}
+                    <div class="form-field">
+                        {{ calculator_form.hours.label_tag }}
+                        {{ calculator_form.hours }}
+                        {{ calculator_form.hours.errors }}
+                    </div>
+                {% elif service.price_type == "per_item" %}
+                    <div class="form-field">
+                        {{ calculator_form.items.label_tag }}
+                        {{ calculator_form.items }}
+                        {{ calculator_form.items.errors }}
+                    </div>
+                {% endif %}
+
+                {% if calculator_form.non_field_errors %}
+                    <div class="form-field">
+                        <div style="color: var(--accent); font-weight: 600;">
+                            {{ calculator_form.non_field_errors }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <button type="submit" class="button">{% trans "Рассчитать цену" %}</button>
+            </form>
+
+            {% if calculated_price %}
+            <div style="margin-top: 1.5rem; padding: 1.5rem; background: var(--surface); border-radius: 8px; border: 2px solid var(--accent);">
+                <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 0.5rem;">{% trans "Расчетная стоимость:" %}</p>
+                <p class="price" style="font-size: 2rem; font-weight: 700; color: var(--accent); margin: 0;">
+                    {{ calculated_price }} {% trans "So'm" %}
+                </p>
+                {% if service.min_price and calculated_price == service.min_price %}
+                    <p style="font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem;">{% trans "Минимальная стоимость услуги" %}</p>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+            {% if request.user.is_authenticated %}
+                {% if calculated_price and service.price_type != "fixed" %}
+                    <a href="{% url 'services:order_create' %}?service={{ service.id }}{% if calculator_form.sqm.value %}&sqm={{ calculator_form.sqm.value }}{% endif %}{% if calculator_form.hours.value %}&hours={{ calculator_form.hours.value }}{% endif %}{% if calculator_form.items.value %}&items={{ calculator_form.items.value }}{% endif %}&calculated_price={{ calculated_price }}" class="button button-large">{% trans "Оформить заявку" %} ({{ calculated_price }} {% trans "So'm" %})</a>
+                {% else %}
+                    <a href="{% url 'services:order_create' %}?service={{ service.id }}" class="button button-large">{% trans "Оформить заявку" %}</a>
+                {% endif %}
+            {% else %}
+                <p class="muted">{% trans "Для оформления заявки необходимо" %} <a href="{% url 'services:login' %}">{% trans "войти" %}</a> {% trans "или" %} <a href="{% url 'services:signup' %}">{% trans "зарегистрироваться" %}</a></p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+

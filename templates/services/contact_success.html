@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Заявка отправлена" %} | AliHouse{% endblock %}
+{% block content %}
+<section class="narrow">
+    <div class="card" style="text-align: center; padding: 3rem;">
+        <h2 style="color: var(--accent); margin-bottom: 1rem;">✅ {% trans "Заявка успешно отправлена!" %}</h2>
+        <p class="muted" style="margin-bottom: 2rem;">{% trans "Мы получили вашу заявку и свяжемся с вами в ближайшее время." %}</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="{% url 'services:landing' %}" class="button">{% trans "На главную" %}</a>
+            <a href="{% url 'services:service_list' %}" class="button ghost">{% trans "Посмотреть услуги" %}</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

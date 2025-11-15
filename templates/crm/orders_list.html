@@ -1,32 +1,35 @@
 {% extends "base.html" %}
-{% block title %}CRM — Заявки{% endblock %}
+{% load i18n %}
+{% block title %}CRM — {% trans "Заявки" %}{% endblock %}
 {% block content %}
 <div class="crm-layout">
     <div class="row space-between align-center">
         <div>
             <p class="eyebrow">CRM</p>
-            <h1>Заявки</h1>
+            <h1>{% trans "Заявки" %}</h1>
         </div>
-        <a class="button ghost" href="{% url 'crm:dashboard' %}">Дашборд</a>
+        <a class="button ghost" href="{% url 'crm:dashboard' %}">{% trans "Дашборд" %}</a>
     </div>
     <form method="get" class="crm-filters card">
         {{ filter_form.status }}
         {{ filter_form.priority }}
         {{ filter_form.assigned_to }}
         {{ filter_form.phone }}
-        <button class="button" type="submit">Фильтр</button>
+        <button class="button" type="submit">{% trans "Фильтр" %}</button>
     </form>
     <div class="crm-table-wrapper">
         <table class="crm-table">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Клиент</th>
-                    <th>Телефон</th>
-                    <th>Приоритет</th>
-                    <th>Статус</th>
-                    <th>Оператор</th>
-                    <th>Обновлено</th>
+                    <th>{% trans "Клиент" %}</th>
+                    <th>{% trans "Услуга" %}</th>
+                    <th>{% trans "Параметры" %}</th>
+                    <th>{% trans "Приоритет" %}</th>
+                    <th>{% trans "Статус" %}</th>
+                    <th>{% trans "Отзыв" %}</th>
+                    <th>{% trans "Оператор" %}</th>
+                    <th>{% trans "Обновлено" %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,14 +37,37 @@
                     <tr>
                         <td><a href="{% url 'crm:order-detail' order.id %}">#{{ order.id }}</a></td>
                         <td>{{ order.customer.name|default:order.user.name }}</td>
-                        <td>{{ order.customer.phone|default:order.user.phone }}</td>
+                        <td>{{ order.service.get_title }}</td>
+                        <td>
+                            {% if order.price_calculation_sqm %}
+                                {{ order.price_calculation_sqm }} {% trans "м²" %}
+                            {% elif order.price_calculation_hours %}
+                                {{ order.price_calculation_hours }} {% trans "ч" %}
+                            {% elif order.price_calculation_items %}
+                                {{ order.price_calculation_items }} {% trans "шт" %}
+                            {% else %}
+                                —
+                            {% endif %}
+                            {% if order.calculated_price %}
+                                <br><small style="color: var(--accent); font-weight: 600;">{{ order.calculated_price }} {% trans "So'm" %}</small>
+                            {% endif %}
+                        </td>
                         <td><span class="crm-tag">{{ order.get_priority_display }}</span></td>
                         <td>{{ order.get_status_display }}</td>
+                        <td>
+                            {% if order.feedback %}
+                                <span style="color: var(--accent); font-weight: 600;">
+                                    ⭐ {{ order.feedback.rating }}/5
+                                </span>
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
                         <td>{{ order.assigned_to.name|default:"—" }}</td>
                         <td>{{ order.updated_at|date:"d.m.Y H:i" }}</td>
                     </tr>
                 {% empty %}
-                    <tr><td colspan="7">Нет заявок.</td></tr>
+                    <tr><td colspan="9">{% trans "Нет заявок." %}</td></tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -49,11 +75,11 @@
     {% if is_paginated %}
         <div class="row align-center space-between">
             {% if page_obj.has_previous %}
-                <a class="button ghost" href="?page={{ page_obj.previous_page_number }}{% if querystring %}&{{ querystring }}{% endif %}">Назад</a>
+                <a class="button ghost" href="?page={{ page_obj.previous_page_number }}{% if querystring %}&{{ querystring }}{% endif %}">{% trans "Назад" %}</a>
             {% endif %}
-            <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+            <span>{% trans "Страница" %} {{ page_obj.number }} {% trans "из" %} {{ page_obj.paginator.num_pages }}</span>
             {% if page_obj.has_next %}
-                <a class="button ghost" href="?page={{ page_obj.next_page_number }}{% if querystring %}&{{ querystring }}{% endif %}">Вперёд</a>
+                <a class="button ghost" href="?page={{ page_obj.next_page_number }}{% if querystring %}&{{ querystring }}{% endif %}">{% trans "Вперёд" %}</a>
             {% endif %}
         </div>
     {% endif %}

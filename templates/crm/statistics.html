@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}CRM — {% trans "Статистика" %}{% endblock %}
+{% block content %}
+<div class="crm-layout">
+    <div class="row space-between align-center">
+        <div>
+            <p class="eyebrow">CRM</p>
+            <h1>{% trans "Статистика" %}</h1>
+        </div>
+        <a class="button ghost" href="{% url 'crm:dashboard' %}">{% trans "Дашборд" %}</a>
+    </div>
+
+    <!-- Общая статистика -->
+    <section class="crm-section">
+        <h2>{% trans "Общая статистика" %}</h2>
+        <div class="crm-cards">
+            <article class="crm-card">
+                <h3>{% trans "Всего заявок" %}</h3>
+                <strong>{{ total_orders }}</strong>
+            </article>
+            <article class="crm-card">
+                <h3>{% trans "Всего клиентов" %}</h3>
+                <strong>{{ total_customers }}</strong>
+            </article>
+            <article class="crm-card">
+                <h3>{% trans "Заявки обратной связи" %}</h3>
+                <strong>{{ total_contact_requests }}</strong>
+            </article>
+            <article class="crm-card">
+                <h3>{% trans "Отзывов" %}</h3>
+                <strong>{{ total_feedbacks }}</strong>
+            </article>
+            <article class="crm-card">
+                <h3>{% trans "Средняя оценка" %}</h3>
+                <strong>{{ average_rating|floatformat:1 }}/5</strong>
+            </article>
+        </div>
+    </section>
+
+    <!-- Статистика заявок -->
+    <section class="crm-section">
+        <h2>{% trans "Статистика заявок" %}</h2>
+        <div class="crm-cards">
+            <article class="crm-card">
+                <h3>{% trans "Сегодня" %}</h3>
+                <strong>{{ orders_today }}</strong>
+            </article>
+            <article class="crm-card">
+                <h3>{% trans "За неделю" %}</h3>
+                <strong>{{ orders_week }}</strong>
+            </article>
+            <article class="crm-card">
+                <h3>{% trans "За месяц" %}</h3>
+                <strong>{{ orders_month }}</strong>
+            </article>
+            <article class="crm-card">
+                <h3>{% trans "За год" %}</h3>
+                <strong>{{ orders_year }}</strong>
+            </article>
+        </div>
+    </section>
+
+    <!-- Статистика по статусам -->
+    <section class="crm-section">
+        <h2>{% trans "Заявки по статусам" %}</h2>
+        <div class="crm-table-wrapper">
+            <table class="crm-table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Статус" %}</th>
+                        <th>{% trans "Количество" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in orders_by_status %}
+                        <tr>
+                            <td>{{ item.status }}</td>
+                            <td><strong>{{ item.count }}</strong></td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="2">{% trans "Нет данных." %}</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Популярные услуги -->
+    {% if popular_services %}
+    <section class="crm-section">
+        <h2>{% trans "Популярные услуги" %}</h2>
+        <div class="crm-table-wrapper">
+            <table class="crm-table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Услуга" %}</th>
+                        <th>{% trans "Количество заявок" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in popular_services %}
+                        <tr>
+                            <td>{{ service.get_title }}</td>
+                            <td><strong>{{ service.order_count }}</strong></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Статистика клиентов -->
+    <section class="crm-section">
+        <h2>{% trans "Новые клиенты" %}</h2>
+        <div class="crm-cards">
+            <article class="crm-card">
+                <h3>{% trans "Сегодня" %}</h3>
+                <strong>{{ new_customers_today }}</strong>
+            </article>
+            <article class="crm-card">
+                <h3>{% trans "За неделю" %}</h3>
+                <strong>{{ new_customers_week }}</strong>
+            </article>
+            <article class="crm-card">
+                <h3>{% trans "За месяц" %}</h3>
+                <strong>{{ new_customers_month }}</strong>
+            </article>
+        </div>
+    </section>
+
+    <!-- Статистика отзывов -->
+    {% if feedbacks_by_rating %}
+    <section class="crm-section">
+        <h2>{% trans "Отзывы по оценкам" %}</h2>
+        <div class="crm-table-wrapper">
+            <table class="crm-table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Оценка" %}</th>
+                        <th>{% trans "Количество" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in feedbacks_by_rating %}
+                        <tr>
+                            <td>
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= item.rating %}⭐{% else %}☆{% endif %}
+                                {% endfor %}
+                                ({{ item.rating }}/5)
+                            </td>
+                            <td><strong>{{ item.count }}</strong></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Статистика операторов -->
+    {% if operators_stats %}
+    <section class="crm-section">
+        <h2>{% trans "Статистика операторов" %}</h2>
+        <div class="crm-table-wrapper">
+            <table class="crm-table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Оператор" %}</th>
+                        <th>{% trans "Назначено заявок" %}</th>
+                        <th>{% trans "Завершено" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for operator in operators_stats %}
+                        <tr>
+                            <td>{{ operator.name|default:operator.phone }}</td>
+                            <td><strong>{{ operator.total_assigned }}</strong></td>
+                            <td><strong>{{ operator.total_completed }}</strong></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Статистика заявок обратной связи -->
+    <section class="crm-section">
+        <h2>{% trans "Заявки обратной связи" %}</h2>
+        <div class="crm-cards">
+            <article class="crm-card">
+                <h3>{% trans "Сегодня" %}</h3>
+                <strong>{{ contact_requests_today }}</strong>
+            </article>
+            <article class="crm-card">
+                <h3>{% trans "За неделю" %}</h3>
+                <strong>{{ contact_requests_week }}</strong>
+            </article>
+        </div>
+        {% if contact_requests_by_status %}
+        <div class="crm-table-wrapper" style="margin-top: 1.5rem;">
+            <table class="crm-table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Статус" %}</th>
+                        <th>{% trans "Количество" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in contact_requests_by_status %}
+                        <tr>
+                            <td>{{ item.status }}</td>
+                            <td><strong>{{ item.count }}</strong></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}
+

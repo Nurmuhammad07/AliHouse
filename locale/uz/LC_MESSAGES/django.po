@@ -1,0 +1,655 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AliHouse 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-15 12:00+0000\n"
+"PO-Revision-Date: 2025-01-15 12:00+0000\n"
+"Last-Translator: Auto Generated\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: uz\n"
+
+msgid "CRM клиент"
+msgstr "CRM mijoz"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Instagram"
+msgstr "Instagram"
+
+msgid "Telegram"
+msgstr "Telegram"
+
+msgid "Администратор"
+msgstr "Administrator"
+
+msgid "Аккаунт"
+msgstr "Hisob"
+
+msgid "Базовая цена"
+msgstr "Asosiy narx"
+
+msgid "Базовая цена или цена за единицу"
+msgstr "Asosiy narx yoki birlik narxi"
+
+msgid "Больше услуг"
+msgstr "Ko'proq xizmatlar"
+
+msgid "Быстро, качественно, надежно. Мы заботимся о вашем комфорте."
+msgstr "Tez, sifatli, ishonchli. Biz sizning qulayligingiz haqida qayg'uramiz."
+
+msgid "В работе"
+msgstr "Ish jarayonida"
+
+msgid "Ваше сообщение..."
+msgstr "Xabaringiz..."
+
+msgid "Введите количество"
+msgstr "Miqdorni kiriting"
+
+msgid "Введите количество часов"
+msgstr "Soatlar sonini kiriting"
+
+msgid "Введите площадь"
+msgstr "Maydonni kiriting"
+
+msgid "Внутренние заметки"
+msgstr "Ichki eslatmalar"
+
+msgid "Внутренние заметки для операторов..."
+msgstr "Operatorlar uchun ichki eslatmalar..."
+
+msgid "Внутренние заметки..."
+msgstr "Ichki eslatmalar..."
+
+msgid "Внутренний комментарий"
+msgstr "Ichki izoh"
+
+msgid "Войти"
+msgstr "Kirish"
+
+msgid "Вперёд"
+msgstr "Oldinga"
+
+msgid "Все заявки"
+msgstr "Barcha buyurtmalar"
+
+msgid "Все клиенты"
+msgstr "Barcha mijozlar"
+
+msgid "Все операторы"
+msgstr "Barcha operatorlar"
+
+msgid "Все права защищены."
+msgstr "Barcha huquqlar himoyalangan."
+
+msgid "Все приоритеты"
+msgstr "Barcha ustuvorliklar"
+
+msgid "Все статусы"
+msgstr "Barcha holatlar"
+
+msgid "Вход"
+msgstr "Kirish"
+
+msgid "Вы уже оставили отзыв для этой заявки."
+msgstr "Siz allaqachon bu buyurtma uchun sharh qoldirdingiz."
+
+msgid "Вы успешно вышли из системы."
+msgstr "Siz muvaffaqiyatli chiqdingiz."
+
+msgid "Вы успешно зарегистрированы и вошли в систему."
+msgstr "Siz muvaffaqiyatli ro'yxatdan o'tdingiz va tizimga kirdingiz."
+
+msgid "Выбирайте услуги, оставляйте заявки и отслеживайте статус без лишнего шума."
+msgstr "Xizmatlarni tanlang, so'rovlar qoldiring va keraksiz shovqinlarsiz holatni kuzating."
+
+msgid "Выйти"
+msgstr "Chiqish"
+
+msgid "Выполненных заказов"
+msgstr "Bajarilgan buyurtmalar"
+
+msgid "Высокий"
+msgstr "Yuqori"
+
+msgid "Готовы начать?"
+msgstr "Boshlashga tayyormisiz?"
+
+msgid "Данные клиента успешно обновлены."
+msgstr "Mijoz ma'lumotlari muvaffaqiyatli yangilandi."
+
+msgid "Дашборд"
+msgstr "Boshqaruv paneli"
+
+msgid "Детали заказа"
+msgstr "Buyurtma tafsilotlari"
+
+msgid "Детальное описание"
+msgstr "Batafsil tavsif"
+
+msgid "До и после"
+msgstr "Oldin va keyin"
+
+msgid "Довольных клиентов"
+msgstr "Mamnun mijozlar"
+
+msgid "Единица измерения"
+msgstr "O'lchov birligi"
+
+msgid "За единицу"
+msgstr "Birlik uchun"
+
+msgid "За м²"
+msgstr "m² uchun"
+
+msgid "За час"
+msgstr "Soat uchun"
+
+msgid "Завершена"
+msgstr "Yakunlandi"
+
+msgid "Завершено"
+msgstr "Yakunlandi"
+
+msgid "Закрыта"
+msgstr "Yopildi"
+
+msgid "Заметки"
+msgstr "Eslatmalar"
+
+msgid "Заполните поле для расчета."
+msgstr "Hisoblash uchun maydonni to'ldiring."
+
+msgid "Заполните форму, и мы свяжемся с вами в ближайшее время"
+msgstr "Formani to'ldiring va biz tez orada siz bilan bog'lanamiz"
+
+msgid "Зарегистрируйтесь"
+msgstr "Ro'yxatdan o'ting"
+
+msgid "Заявка"
+msgstr "Buyurtma"
+
+msgid "Заявка обновлена."
+msgstr "So'rov yangilandi."
+
+msgid "Заявка обратной связи"
+msgstr "Aloqa so'rovi"
+
+msgid "Заявка отправлена"
+msgstr "So'rov yuborildi"
+
+msgid "Заявка создана. Мы свяжемся с вами в ближайшее время."
+msgstr "Buyurtma yaratildi. Tez orada siz bilan bog'lanamiz."
+
+msgid "Заявка успешно обновлена."
+msgstr "Buyurtma muvaffaqiyatli yangilandi."
+
+msgid "Заявка успешно отправлена!"
+msgstr "So'rov muvaffaqiyatli yuborildi!"
+
+msgid "Заявки"
+msgstr "Buyurtmalar"
+
+msgid "Заявки обратной связи"
+msgstr "Aloqa so'rovlari"
+
+msgid "Заявок"
+msgstr "Buyurtmalar"
+
+msgid "Имя"
+msgstr "Ism"
+
+msgid "Индивидуальный расчет"
+msgstr "Individual hisoblash"
+
+msgid "Информация о заявке"
+msgstr "So'rov haqida ma'lumot"
+
+msgid "История и достижения"
+msgstr "Tarix va yutuqlar"
+
+msgid "История услуги, достижения, статистика"
+msgstr "Xizmat tarixi, yutuqlar, statistika"
+
+msgid "Клиент"
+msgstr "Mijoz"
+
+msgid "Клиенты"
+msgstr "Mijozlar"
+
+msgid "Клиенты не найдены."
+msgstr "Mijozlar topilmadi."
+
+msgid "Количество единиц"
+msgstr "Birliklar soni"
+
+msgid "Количество единиц:"
+msgstr "Birliklar soni:"
+
+msgid "Количество часов"
+msgstr "Soatlar soni"
+
+msgid "Количество часов:"
+msgstr "Soatlar soni:"
+
+msgid "Комментарии к заявкам"
+msgstr "Buyurtmalarga izohlar"
+
+msgid "Комментарий"
+msgstr "Izoh"
+
+msgid "Комментарий добавлен."
+msgstr "Izoh qo'shildi."
+
+msgid "Комментарий к заявке"
+msgstr "Buyurtmaga izoh"
+
+msgid "Контактная информация"
+msgstr "Aloqa ma'lumotlari"
+
+msgid "Контекст общения, важные детали"
+msgstr "Muloqot konteksti, muhim tafsilotlar"
+
+msgid "Краткое описание"
+msgstr "Qisqa tavsif"
+
+msgid "Лет на рынке"
+msgstr "Bo'zorda yillar"
+
+msgid "Меню"
+msgstr "Menyu"
+
+msgid "Минималистичный сервисный каталог"
+msgstr "Minimalistik xizmatlar katalogi"
+
+msgid "Минимальная стоимость услуги"
+msgstr "Xizmatning minimal narxi"
+
+msgid "Минимальная цена"
+msgstr "Minimal narx"
+
+msgid "Мои заявки"
+msgstr "Mening buyurtmalarim"
+
+msgid "Мы получили вашу заявку и свяжемся с вами в ближайшее время."
+msgstr "Biz sizning so'rovingizni oldik va tez orada siz bilan bog'lanamiz."
+
+msgid "На главную"
+msgstr "Bosh sahifaga"
+
+msgid "Назад"
+msgstr "Orqaga"
+
+msgid "Назад к списку"
+msgstr "Ro'yxatga qaytish"
+
+msgid "Название"
+msgstr "Nomi"
+
+msgid "Настройка типа расчета цены и базовых параметров"
+msgstr "Narx hisoblash turi va asosiy parametrlarni sozlash"
+
+msgid "Начать"
+msgstr "Boshlash"
+
+msgid "Наша работа"
+msgstr "Bizning ishimiz"
+
+msgid "Наши услуги"
+msgstr "Bizning xizmatlarimiz"
+
+msgid "Не назначен"
+msgstr "Tayinlanmagan"
+
+msgid "Необязательно"
+msgstr "Ixtiyoriy"
+
+msgid "Нет аккаунта?"
+msgstr "Hisobingiz yo'qmi?"
+
+msgid "Нет данных."
+msgstr "Ma'lumotlar yo'q."
+
+msgid "Нет заявок."
+msgstr "So'rovlar yo'q."
+
+msgid "Новая"
+msgstr "Yangi"
+
+msgid "Новая заявка"
+msgstr "Yangi buyurtma"
+
+msgid "Новые заявки"
+msgstr "Yangi buyurtmalar"
+
+msgid "Новые заявки обратной связи"
+msgstr "Yangi aloqa so'rovlari"
+
+msgid "Новые клиенты"
+msgstr "Yangi mijozlar"
+
+msgid "Обновлено"
+msgstr "Yangilandi"
+
+msgid "Обновлено:"
+msgstr "Yangilandi:"
+
+msgid "Обычный"
+msgstr "Oddiy"
+
+msgid "Оператор"
+msgstr "Operator"
+
+msgid "Основная информация"
+msgstr "Asosiy ma'lumotlar"
+
+msgid "Оставить заявку"
+msgstr "So'rov qoldirish"
+
+msgid "Ответственный оператор"
+msgstr "Mas'ul operator"
+
+msgid "Ответственный:"
+msgstr "Mas'ul:"
+
+msgid "Отзыв"
+msgstr "Sharh"
+
+msgid "Отзыв доступен после завершения заявки."
+msgstr "Sharh buyurtma yakunlangandan keyin mavjud."
+
+msgid "Отзыв по заявке"
+msgstr "Buyurtma sharhi"
+
+msgid "Отзывы"
+msgstr "Sharhlar"
+
+msgid "Отменена"
+msgstr "Bekor qilindi"
+
+msgid "Отправить заявку"
+msgstr "So'rov yuborish"
+
+msgid "Оценка (1-5)"
+msgstr "Baholash (1-5)"
+
+msgid "Параметры"
+msgstr "Parametrlar"
+
+msgid "Параметры расчета"
+msgstr "Hisoblash parametrlari"
+
+msgid "Параметры расчета цены"
+msgstr "Narx hisoblash parametrlari"
+
+msgid "Параметры, указанные пользователем при создании заказа"
+msgstr "Foydalanuvchi tomonidan buyurtma yaratishda ko'rsatilgan parametrlar"
+
+msgid "Пароли не совпадают."
+msgstr "Parollar mos kelmaydi."
+
+msgid "Пароль"
+msgstr "Parol"
+
+msgid "Перейти к каталогу"
+msgstr "Katalogga o'tish"
+
+msgid "Переключить тему"
+msgstr "Temani o'zgartirish"
+
+msgid "Персональные данные"
+msgstr "Shaxsiy ma'lumotlar"
+
+msgid "Площадь (м²)"
+msgstr "Maydon (m²)"
+
+msgid "Площадь:"
+msgstr "Maydon:"
+
+msgid "Повторите пароль"
+msgstr "Parolni takrorlang"
+
+msgid "Подробнее"
+msgstr "Batafsil"
+
+msgid "Пожелания"
+msgstr "Istaklar"
+
+msgid "Пока нет активных услуг."
+msgstr "Hozircha faol xizmatlar yo'q."
+
+msgid "Полное описание услуги"
+msgstr "Xizmatning to'liq tavsifi"
+
+msgid "Пользователь с таким телефоном уже есть."
+msgstr "Bu telefon raqamiga ega foydalanuvchi allaqachon mavjud."
+
+msgid "Последние заявки"
+msgstr "Oxirgi buyurtmalar"
+
+msgid "Последние заявки обратной связи"
+msgstr "Oxirgi aloqa so'rovlari"
+
+msgid "Последний заказ"
+msgstr "Oxirgi buyurtma"
+
+msgid "Посмотреть услуги"
+msgstr "Xizmatlarni ko'rish"
+
+msgid "Посмотрите наш полный каталог услуг и выберите то, что вам нужно"
+msgstr "Bizning to'liq xizmatlar katalogimizni ko'rib chiqing va kerakli narsani tanlang"
+
+msgid "Права доступа"
+msgstr "Kirish huquqlari"
+
+msgid "Принята"
+msgstr "Qabul qilindi"
+
+msgid "Приоритет"
+msgstr "Ustuvorlik"
+
+msgid "Профессиональные сервисные услуги"
+msgstr "Professional xizmatlar"
+
+msgid "Расскажите о впечатлении"
+msgstr "Tajribangiz haqida ayting"
+
+msgid "Рассчитанная стоимость:"
+msgstr "Hisoblangan narx:"
+
+msgid "Рассчитанная цена"
+msgstr "Hisoblangan narx"
+
+msgid "Регистрация"
+msgstr "Ro'yxatdan o'tish"
+
+msgid "Результаты"
+msgstr "Natijalar"
+
+msgid "Роль"
+msgstr "Rol"
+
+msgid "Связались"
+msgstr "Bog'landi"
+
+msgid "Сервисные услуги"
+msgstr "Xizmat xizmatlari"
+
+msgid "Системная информация"
+msgstr "Tizim ma'lumotlari"
+
+msgid "Создано"
+msgstr "Yaratilgan"
+
+msgid "Создано:"
+msgstr "Yaratilgan:"
+
+msgid "Создать аккаунт"
+msgstr "Hisob yaratish"
+
+msgid "Создать заявку"
+msgstr "Buyurtma yaratish"
+
+msgid "Сообщение"
+msgstr "Xabar"
+
+msgid "Сохранить"
+msgstr "Saqlash"
+
+msgid "Спасибо за обратную связь!"
+msgstr "Fikr-mulohaza uchun rahmat!"
+
+msgid "Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время."
+msgstr "Rahmat! So'rovingiz yuborildi. Tez orada siz bilan bog'lanamiz."
+
+msgid "Статистика"
+msgstr "Statistika"
+
+msgid "Статус"
+msgstr "Holat"
+
+msgid "Статус:"
+msgstr "Holat:"
+
+msgid "Страница"
+msgstr "Sahifa"
+
+msgid "Текст отзыва"
+msgstr "Sharh matni"
+
+msgid "Телефон"
+msgstr "Telefon"
+
+msgid "Телефон клиента"
+msgstr "Mijoz telefoni"
+
+msgid "Телефон:"
+msgstr "Telefon:"
+
+msgid "Тип расчета цены"
+msgstr "Narx hisoblash turi"
+
+msgid "Уже есть аккаунт?"
+msgstr "Allaqachon hisobingiz bormi?"
+
+msgid "Укажите номер телефона."
+msgstr "Telefon raqamini ko'rsating."
+
+msgid "Управление"
+msgstr "Boshqaruv"
+
+msgid "Услуга"
+msgstr "Xizmat"
+
+msgid "Услуги"
+msgstr "Xizmatlar"
+
+msgid "Фиксированная цена"
+msgstr "Belgilangan narx"
+
+msgid "Фильтр"
+msgstr "Filter"
+
+msgid "Фото работ"
+msgstr "Ish fotosuratlari"
+
+msgid "Цена, рассчитанная на основе параметров"
+msgstr "Parametrlar asosida hisoblangan narx"
+
+msgid "Ценообразование"
+msgstr "Narxlash"
+
+msgid "из"
+msgstr "dan"
+
+msgid "м², час, шт. и т.д."
+msgstr "m², soat, dona va h.k."
+
+msgid "Русский"
+msgstr "Rus"
+
+msgid "So'm"
+msgstr "So'm"
+
+msgid "м²"
+msgstr "m²"
+
+msgid "ч"
+msgstr "soat"
+
+msgid "шт"
+msgstr "dona"
+
+msgid "от"
+msgstr "dan"
+
+msgid "за"
+msgstr "uchun"
+
+msgid "Без названия"
+msgstr "Nomsiz"
+
+msgid "Общая статистика"
+msgstr "Umumiy statistika"
+
+msgid "Всего заявок"
+msgstr "Jami buyurtmalar"
+
+msgid "Всего клиентов"
+msgstr "Jami mijozlar"
+
+msgid "Отзывов"
+msgstr "Sharhlar"
+
+msgid "Средняя оценка"
+msgstr "O'rtacha baho"
+
+msgid "Статистика заявок"
+msgstr "Buyurtmalar statistikasi"
+
+msgid "Сегодня"
+msgstr "Bugun"
+
+msgid "За неделю"
+msgstr "Bu hafta"
+
+msgid "За месяц"
+msgstr "Bu oy"
+
+msgid "За год"
+msgstr "Bu yil"
+
+msgid "Заявки по статусам"
+msgstr "Holat bo'yicha buyurtmalar"
+
+msgid "Количество"
+msgstr "Soni"
+
+msgid "Популярные услуги"
+msgstr "Mashhur xizmatlar"
+
+msgid "Количество заявок"
+msgstr "Buyurtmalar soni"
+
+msgid "Отзывы по оценкам"
+msgstr "Baho bo'yicha sharhlar"
+
+msgid "Оценка"
+msgstr "Baholash"
+
+msgid "Статистика операторов"
+msgstr "Operatorlar statistikasi"
+
+msgid "Назначено заявок"
+msgstr "Tayinlangan buyurtmalar"
+

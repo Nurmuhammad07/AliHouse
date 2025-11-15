@@ -1,51 +1,100 @@
 {% extends "base.html" %}
-{% block title %}CRM — Заявка #{{ order.id }}{% endblock %}
+{% load i18n %}
+{% block title %}CRM — {% trans "Заявка" %} #{{ order.id }}{% endblock %}
 {% block content %}
 <div class="crm-layout">
-    <a class="back-link" href="{% url 'crm:orders' %}">← Назад к списку</a>
-    <h1>Заявка #{{ order.id }}</h1>
+    <a class="back-link" href="{% url 'crm:orders' %}">← {% trans "Назад к списку" %}</a>
+    <h1>{% trans "Заявка" %} #{{ order.id }}</h1>
     <section class="card">
-        <h3>Информация</h3>
-        <p><strong>Клиент:</strong> {{ order.customer.name|default:order.user.name }} ({{ order.customer.phone|default:order.user.phone }})</p>
-        <p><strong>Услуга:</strong> {{ order.service.title }}</p>
-        <p><strong>Статус:</strong> {{ order.get_status_display }}</p>
-        <p><strong>Приоритет:</strong> {{ order.get_priority_display }}</p>
-        <p><strong>Ответственный:</strong> {{ order.assigned_to.name|default:"Не назначен" }}</p>
+        <h3>{% trans "Информация" %}</h3>
+        <p><strong>{% trans "Клиент:" %}</strong> {{ order.customer.name|default:order.user.name }} ({{ order.customer.phone|default:order.user.phone }})</p>
+        <p><strong>{% trans "Услуга:" %}</strong> {{ order.service.get_title }}</p>
+        <p><strong>{% trans "Статус:" %}</strong> {{ order.get_status_display }}</p>
+        <p><strong>{% trans "Приоритет:" %}</strong> {{ order.get_priority_display }}</p>
+        <p><strong>{% trans "Ответственный:" %}</strong> {{ order.assigned_to.name|default:_("Не назначен") }}</p>
+        
+        {% if order.price_calculation_sqm or order.price_calculation_hours or order.price_calculation_items %}
+        <div style="margin-top: 1.5rem; padding: 1rem; background: var(--surface-muted); border-radius: 8px;">
+            <h4 style="margin-bottom: 0.75rem;">{% trans "Параметры расчета цены:" %}</h4>
+            {% if order.price_calculation_sqm %}
+                <p><strong>{% trans "Площадь:" %}</strong> {{ order.price_calculation_sqm }} {% trans "м²" %}</p>
+            {% endif %}
+            {% if order.price_calculation_hours %}
+                <p><strong>{% trans "Количество часов:" %}</strong> {{ order.price_calculation_hours }}</p>
+            {% endif %}
+            {% if order.price_calculation_items %}
+                <p><strong>{% trans "Количество единиц:" %}</strong> {{ order.price_calculation_items }}</p>
+            {% endif %}
+            {% if order.calculated_price %}
+                <p style="font-weight: 600; color: var(--accent); margin-top: 0.5rem;">
+                    <strong>{% trans "Рассчитанная стоимость:" %}</strong> {{ order.calculated_price }} {% trans "So'm" %}
+                </p>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        {% if order.details %}
+        <div style="margin-top: 1.5rem; padding: 1rem; background: var(--surface-muted); border-radius: 8px;">
+            <h4 style="margin-bottom: 0.5rem;">{% trans "Комментарий клиента:" %}</h4>
+            <p style="white-space: pre-line;">{{ order.details }}</p>
+        </div>
+        {% endif %}
     </section>
+    
+    {% if order.feedback %}
+    <section class="card" style="background: var(--accent-muted); border: 1px solid var(--accent);">
+        <h3>{% trans "Отзыв клиента" %}</h3>
+        <div style="margin-top: 1rem;">
+            <p><strong>{% trans "Оценка:" %}</strong> 
+                {% for i in "12345" %}
+                    {% if forloop.counter <= order.feedback.rating %}⭐{% else %}☆{% endif %}
+                {% endfor %}
+                ({{ order.feedback.rating }}/5)
+            </p>
+            {% if order.feedback.text %}
+                <div style="margin-top: 1rem; padding: 1rem; background: var(--surface); border-radius: 8px;">
+                    <p style="white-space: pre-line;">{{ order.feedback.text }}</p>
+                </div>
+            {% endif %}
+            <p class="muted small" style="margin-top: 0.5rem;">{% trans "Оставлен:" %} {{ order.feedback.created_at|date:"d.m.Y H:i" }}</p>
+        </div>
+    </section>
+    {% endif %}
+    
     <section class="card">
-        <h3>Управление</h3>
+        <h3>{% trans "Управление" %}</h3>
         <form method="post">
             {% csrf_token %}
             <div class="form-field">
-                <label for="{{ order_form.status.id_for_label }}"><strong>Статус:</strong></label>
+                <label for="{{ order_form.status.id_for_label }}"><strong>{% trans "Статус:" %}</strong></label>
                 {{ order_form.status }}
                 {{ order_form.status.errors }}
             </div>
             <div class="form-field">
-                <label for="{{ order_form.priority.id_for_label }}"><strong>Приоритет:</strong></label>
+                <label for="{{ order_form.priority.id_for_label }}"><strong>{% trans "Приоритет:" %}</strong></label>
                 {{ order_form.priority }}
                 {{ order_form.priority.errors }}
             </div>
             <div class="form-field">
-                <label for="{{ order_form.assigned_to.id_for_label }}"><strong>Ответственный оператор:</strong></label>
+                <label for="{{ order_form.assigned_to.id_for_label }}"><strong>{% trans "Ответственный оператор:" %}</strong></label>
                 {{ order_form.assigned_to }}
                 {{ order_form.assigned_to.errors }}
             </div>
             <div class="form-field">
-                <label for="{{ order_form.internal_notes.id_for_label }}"><strong>Внутренние заметки:</strong></label>
+                <label for="{{ order_form.internal_notes.id_for_label }}"><strong>{% trans "Внутренние заметки:" %}</strong></label>
                 {{ order_form.internal_notes }}
                 {{ order_form.internal_notes.errors }}
             </div>
-            <button class="button" type="submit">Сохранить изменения</button>
+            <button class="button" type="submit">{% trans "Сохранить изменения" %}</button>
         </form>
     </section>
     <section class="card">
-        <h3>Комментарии</h3>
+        <h3>{% trans "Комментарии" %}</h3>
         <form method="post" class="form-field">
             {% csrf_token %}
             <input type="hidden" name="action" value="add_comment">
             {{ comment_form.text }}
-            <button class="button ghost" type="submit">Добавить</button>
+            <button class="button ghost" type="submit">{% trans "Добавить" %}</button>
         </form>
         <div class="crm-section">
             {% for comment in order.comments.all %}
@@ -54,7 +103,7 @@
                     <p>{{ comment.text }}</p>
                 </div>
             {% empty %}
-                <p class="muted">Комментариев пока нет.</p>
+                <p class="muted">{% trans "Комментариев пока нет." %}</p>
             {% endfor %}
         </div>
     </section>

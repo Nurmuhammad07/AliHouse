@@ -5,6 +5,105 @@
     position: relative;
 }
 
+.landing-header {
+    background: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(18px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 1rem 0;
+}
+
+:root[data-theme="dark"] .landing-header {
+    background: rgba(5, 6, 11, 0.9);
+}
+
+.landing-header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.landing-brand {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.landing-brand:hover {
+    transform: translateY(-1px);
+    opacity: 0.85;
+}
+
+.landing-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.landing-header-controls .language-switcher {
+    display: flex;
+    align-items: center;
+}
+
+.landing-header-controls .language-select {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: var(--font-heading);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2310121a' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 12px;
+    padding-right: 2.5rem;
+    min-width: 140px;
+}
+
+:root[data-theme="dark"] .landing-header-controls .language-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23f6f7fb' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+}
+
+.landing-header-controls .language-select:hover {
+    border-color: var(--accent);
+    background-color: var(--accent-muted);
+    transform: translateY(-1px);
+}
+
+.landing-header-controls .language-select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-muted);
+}
+
+@media (max-width: 720px) {
+    .landing-header-content {
+        flex-wrap: wrap;
+    }
+    
+    .landing-header-controls {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    
+    .landing-header-controls .language-select {
+        min-width: 120px;
+        font-size: 0.85rem;
+    }
+}
+
 .landing-container {
     width: min(1200px, 92vw);
     margin: 0 auto;

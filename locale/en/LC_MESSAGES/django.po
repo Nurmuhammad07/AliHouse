@@ -1,0 +1,655 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AliHouse 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-15 12:00+0000\n"
+"PO-Revision-Date: 2025-01-15 12:00+0000\n"
+"Last-Translator: Auto Generated\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en\n"
+
+msgid "CRM клиент"
+msgstr "CRM client"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Instagram"
+msgstr "Instagram"
+
+msgid "Telegram"
+msgstr "Telegram"
+
+msgid "Администратор"
+msgstr "Administrator"
+
+msgid "Аккаунт"
+msgstr "Account"
+
+msgid "Базовая цена"
+msgstr "Base price"
+
+msgid "Базовая цена или цена за единицу"
+msgstr "Base price or price per unit"
+
+msgid "Больше услуг"
+msgstr "More services"
+
+msgid "Быстро, качественно, надежно. Мы заботимся о вашем комфорте."
+msgstr "Fast, quality, reliable. We care about your comfort."
+
+msgid "В работе"
+msgstr "In progress"
+
+msgid "Ваше сообщение..."
+msgstr "Your message..."
+
+msgid "Введите количество"
+msgstr "Enter quantity"
+
+msgid "Введите количество часов"
+msgstr "Enter number of hours"
+
+msgid "Введите площадь"
+msgstr "Enter area"
+
+msgid "Внутренние заметки"
+msgstr "Internal notes"
+
+msgid "Внутренние заметки для операторов..."
+msgstr "Internal notes for operators..."
+
+msgid "Внутренние заметки..."
+msgstr "Internal notes..."
+
+msgid "Внутренний комментарий"
+msgstr "Internal comment"
+
+msgid "Войти"
+msgstr "Log in"
+
+msgid "Вперёд"
+msgstr "Forward"
+
+msgid "Все заявки"
+msgstr "All orders"
+
+msgid "Все клиенты"
+msgstr "All clients"
+
+msgid "Все операторы"
+msgstr "All operators"
+
+msgid "Все права защищены."
+msgstr "All rights reserved."
+
+msgid "Все приоритеты"
+msgstr "All priorities"
+
+msgid "Все статусы"
+msgstr "All statuses"
+
+msgid "Вход"
+msgstr "Login"
+
+msgid "Вы уже оставили отзыв для этой заявки."
+msgstr "You have already left a review for this order."
+
+msgid "Вы успешно вышли из системы."
+msgstr "You have successfully logged out."
+
+msgid "Вы успешно зарегистрированы и вошли в систему."
+msgstr "You have successfully registered and logged in."
+
+msgid "Выбирайте услуги, оставляйте заявки и отслеживайте статус без лишнего шума."
+msgstr "Choose services, submit requests and track status without unnecessary noise."
+
+msgid "Выйти"
+msgstr "Log out"
+
+msgid "Выполненных заказов"
+msgstr "Completed orders"
+
+msgid "Высокий"
+msgstr "High"
+
+msgid "Готовы начать?"
+msgstr "Ready to start?"
+
+msgid "Данные клиента успешно обновлены."
+msgstr "Client data successfully updated."
+
+msgid "Дашборд"
+msgstr "Dashboard"
+
+msgid "Детали заказа"
+msgstr "Order details"
+
+msgid "Детальное описание"
+msgstr "Detailed description"
+
+msgid "До и после"
+msgstr "Before and after"
+
+msgid "Довольных клиентов"
+msgstr "Satisfied clients"
+
+msgid "Единица измерения"
+msgstr "Unit of measurement"
+
+msgid "За единицу"
+msgstr "Per item"
+
+msgid "За м²"
+msgstr "Per m²"
+
+msgid "За час"
+msgstr "Per hour"
+
+msgid "Завершена"
+msgstr "Completed"
+
+msgid "Завершено"
+msgstr "Completed"
+
+msgid "Закрыта"
+msgstr "Closed"
+
+msgid "Заметки"
+msgstr "Notes"
+
+msgid "Заполните поле для расчета."
+msgstr "Fill in the field for calculation."
+
+msgid "Заполните форму, и мы свяжемся с вами в ближайшее время"
+msgstr "Fill out the form and we will contact you soon"
+
+msgid "Зарегистрируйтесь"
+msgstr "Sign up"
+
+msgid "Заявка"
+msgstr "Order"
+
+msgid "Заявка обновлена."
+msgstr "Request updated."
+
+msgid "Заявка обратной связи"
+msgstr "Contact request"
+
+msgid "Заявка отправлена"
+msgstr "Request sent"
+
+msgid "Заявка создана. Мы свяжемся с вами в ближайшее время."
+msgstr "Order created. We will contact you soon."
+
+msgid "Заявка успешно обновлена."
+msgstr "Order successfully updated."
+
+msgid "Заявка успешно отправлена!"
+msgstr "Request successfully sent!"
+
+msgid "Заявки"
+msgstr "Orders"
+
+msgid "Заявки обратной связи"
+msgstr "Contact requests"
+
+msgid "Заявок"
+msgstr "Orders"
+
+msgid "Имя"
+msgstr "Name"
+
+msgid "Индивидуальный расчет"
+msgstr "Custom calculation"
+
+msgid "Информация о заявке"
+msgstr "Request information"
+
+msgid "История и достижения"
+msgstr "History and achievements"
+
+msgid "История услуги, достижения, статистика"
+msgstr "Service history, achievements, statistics"
+
+msgid "Клиент"
+msgstr "Client"
+
+msgid "Клиенты"
+msgstr "Clients"
+
+msgid "Клиенты не найдены."
+msgstr "Clients not found."
+
+msgid "Количество единиц"
+msgstr "Number of items"
+
+msgid "Количество единиц:"
+msgstr "Number of items:"
+
+msgid "Количество часов"
+msgstr "Number of hours"
+
+msgid "Количество часов:"
+msgstr "Number of hours:"
+
+msgid "Комментарии к заявкам"
+msgstr "Order comments"
+
+msgid "Комментарий"
+msgstr "Comment"
+
+msgid "Комментарий добавлен."
+msgstr "Comment added."
+
+msgid "Комментарий к заявке"
+msgstr "Order comment"
+
+msgid "Контактная информация"
+msgstr "Contact information"
+
+msgid "Контекст общения, важные детали"
+msgstr "Communication context, important details"
+
+msgid "Краткое описание"
+msgstr "Short description"
+
+msgid "Лет на рынке"
+msgstr "Years in business"
+
+msgid "Меню"
+msgstr "Menu"
+
+msgid "Минималистичный сервисный каталог"
+msgstr "Minimalist service catalog"
+
+msgid "Минимальная стоимость услуги"
+msgstr "Minimum service cost"
+
+msgid "Минимальная цена"
+msgstr "Minimum price"
+
+msgid "Мои заявки"
+msgstr "My orders"
+
+msgid "Мы получили вашу заявку и свяжемся с вами в ближайшее время."
+msgstr "We have received your request and will contact you soon."
+
+msgid "На главную"
+msgstr "Home"
+
+msgid "Назад"
+msgstr "Back"
+
+msgid "Назад к списку"
+msgstr "Back to list"
+
+msgid "Название"
+msgstr "Title"
+
+msgid "Настройка типа расчета цены и базовых параметров"
+msgstr "Price calculation type and basic parameters setup"
+
+msgid "Начать"
+msgstr "Get started"
+
+msgid "Наша работа"
+msgstr "Our work"
+
+msgid "Наши услуги"
+msgstr "Our services"
+
+msgid "Не назначен"
+msgstr "Not assigned"
+
+msgid "Необязательно"
+msgstr "Optional"
+
+msgid "Нет аккаунта?"
+msgstr "Don't have an account?"
+
+msgid "Нет данных."
+msgstr "No data."
+
+msgid "Нет заявок."
+msgstr "No requests."
+
+msgid "Новая"
+msgstr "New"
+
+msgid "Новая заявка"
+msgstr "New order"
+
+msgid "Новые заявки"
+msgstr "New orders"
+
+msgid "Новые заявки обратной связи"
+msgstr "New contact requests"
+
+msgid "Новые клиенты"
+msgstr "New clients"
+
+msgid "Обновлено"
+msgstr "Updated"
+
+msgid "Обновлено:"
+msgstr "Updated:"
+
+msgid "Обычный"
+msgstr "Normal"
+
+msgid "Оператор"
+msgstr "Operator"
+
+msgid "Основная информация"
+msgstr "Main information"
+
+msgid "Оставить заявку"
+msgstr "Submit request"
+
+msgid "Ответственный оператор"
+msgstr "Assigned operator"
+
+msgid "Ответственный:"
+msgstr "Assigned to:"
+
+msgid "Отзыв"
+msgstr "Review"
+
+msgid "Отзыв доступен после завершения заявки."
+msgstr "Review is available after order completion."
+
+msgid "Отзыв по заявке"
+msgstr "Order review"
+
+msgid "Отзывы"
+msgstr "Reviews"
+
+msgid "Отменена"
+msgstr "Cancelled"
+
+msgid "Отправить заявку"
+msgstr "Submit request"
+
+msgid "Оценка (1-5)"
+msgstr "Rating (1-5)"
+
+msgid "Параметры"
+msgstr "Parameters"
+
+msgid "Параметры расчета"
+msgstr "Calculation parameters"
+
+msgid "Параметры расчета цены"
+msgstr "Price calculation parameters"
+
+msgid "Параметры, указанные пользователем при создании заказа"
+msgstr "Parameters specified by user when creating order"
+
+msgid "Пароли не совпадают."
+msgstr "Passwords do not match."
+
+msgid "Пароль"
+msgstr "Password"
+
+msgid "Перейти к каталогу"
+msgstr "Go to catalog"
+
+msgid "Переключить тему"
+msgstr "Toggle theme"
+
+msgid "Персональные данные"
+msgstr "Personal data"
+
+msgid "Площадь (м²)"
+msgstr "Area (m²)"
+
+msgid "Площадь:"
+msgstr "Area:"
+
+msgid "Повторите пароль"
+msgstr "Repeat password"
+
+msgid "Подробнее"
+msgstr "Details"
+
+msgid "Пожелания"
+msgstr "Wishes"
+
+msgid "Пока нет активных услуг."
+msgstr "No active services yet."
+
+msgid "Полное описание услуги"
+msgstr "Full service description"
+
+msgid "Пользователь с таким телефоном уже есть."
+msgstr "User with this phone number already exists."
+
+msgid "Последние заявки"
+msgstr "Recent orders"
+
+msgid "Последние заявки обратной связи"
+msgstr "Recent contact requests"
+
+msgid "Последний заказ"
+msgstr "Last order"
+
+msgid "Посмотреть услуги"
+msgstr "View services"
+
+msgid "Посмотрите наш полный каталог услуг и выберите то, что вам нужно"
+msgstr "Browse our full catalog of services and choose what you need"
+
+msgid "Права доступа"
+msgstr "Access rights"
+
+msgid "Принята"
+msgstr "Accepted"
+
+msgid "Приоритет"
+msgstr "Priority"
+
+msgid "Профессиональные сервисные услуги"
+msgstr "Professional services"
+
+msgid "Расскажите о впечатлении"
+msgstr "Tell us about your experience"
+
+msgid "Рассчитанная стоимость:"
+msgstr "Calculated price:"
+
+msgid "Рассчитанная цена"
+msgstr "Calculated price"
+
+msgid "Регистрация"
+msgstr "Sign up"
+
+msgid "Результаты"
+msgstr "Results"
+
+msgid "Роль"
+msgstr "Role"
+
+msgid "Связались"
+msgstr "Contacted"
+
+msgid "Сервисные услуги"
+msgstr "Service services"
+
+msgid "Системная информация"
+msgstr "System information"
+
+msgid "Создано"
+msgstr "Created"
+
+msgid "Создано:"
+msgstr "Created:"
+
+msgid "Создать аккаунт"
+msgstr "Create account"
+
+msgid "Создать заявку"
+msgstr "Create order"
+
+msgid "Сообщение"
+msgstr "Message"
+
+msgid "Сохранить"
+msgstr "Save"
+
+msgid "Спасибо за обратную связь!"
+msgstr "Thank you for your feedback!"
+
+msgid "Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время."
+msgstr "Thank you! Your request has been sent. We will contact you soon."
+
+msgid "Статистика"
+msgstr "Statistics"
+
+msgid "Статус"
+msgstr "Status"
+
+msgid "Статус:"
+msgstr "Status:"
+
+msgid "Страница"
+msgstr "Page"
+
+msgid "Текст отзыва"
+msgstr "Review text"
+
+msgid "Телефон"
+msgstr "Phone"
+
+msgid "Телефон клиента"
+msgstr "Client phone"
+
+msgid "Телефон:"
+msgstr "Phone:"
+
+msgid "Тип расчета цены"
+msgstr "Price calculation type"
+
+msgid "Уже есть аккаунт?"
+msgstr "Already have an account?"
+
+msgid "Укажите номер телефона."
+msgstr "Please provide a phone number."
+
+msgid "Управление"
+msgstr "Management"
+
+msgid "Услуга"
+msgstr "Service"
+
+msgid "Услуги"
+msgstr "Services"
+
+msgid "Фиксированная цена"
+msgstr "Fixed price"
+
+msgid "Фильтр"
+msgstr "Filter"
+
+msgid "Фото работ"
+msgstr "Work photos"
+
+msgid "Цена, рассчитанная на основе параметров"
+msgstr "Price calculated based on parameters"
+
+msgid "Ценообразование"
+msgstr "Pricing"
+
+msgid "из"
+msgstr "of"
+
+msgid "м², час, шт. и т.д."
+msgstr "m², hour, pcs., etc."
+
+msgid "Русский"
+msgstr "Russian"
+
+msgid "So'm"
+msgstr "So'm"
+
+msgid "м²"
+msgstr "m²"
+
+msgid "ч"
+msgstr "h"
+
+msgid "шт"
+msgstr "pcs"
+
+msgid "от"
+msgstr "from"
+
+msgid "за"
+msgstr "per"
+
+msgid "Без названия"
+msgstr "No title"
+
+msgid "Общая статистика"
+msgstr "General statistics"
+
+msgid "Всего заявок"
+msgstr "Total orders"
+
+msgid "Всего клиентов"
+msgstr "Total clients"
+
+msgid "Отзывов"
+msgstr "Reviews"
+
+msgid "Средняя оценка"
+msgstr "Average rating"
+
+msgid "Статистика заявок"
+msgstr "Orders statistics"
+
+msgid "Сегодня"
+msgstr "Today"
+
+msgid "За неделю"
+msgstr "This week"
+
+msgid "За месяц"
+msgstr "This month"
+
+msgid "За год"
+msgstr "This year"
+
+msgid "Заявки по статусам"
+msgstr "Orders by status"
+
+msgid "Количество"
+msgstr "Count"
+
+msgid "Популярные услуги"
+msgstr "Popular services"
+
+msgid "Количество заявок"
+msgstr "Number of orders"
+
+msgid "Отзывы по оценкам"
+msgstr "Reviews by rating"
+
+msgid "Оценка"
+msgstr "Rating"
+
+msgid "Статистика операторов"
+msgstr "Operators statistics"
+
+msgid "Назначено заявок"
+msgstr "Assigned orders"
+

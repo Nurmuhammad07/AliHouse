@@ -1,25 +1,26 @@
 {% extends "base.html" %}
-{% block title %}CRM — Клиенты{% endblock %}
+{% load i18n %}
+{% block title %}CRM — {% trans "Клиенты" %}{% endblock %}
 {% block content %}
 <div class="crm-layout">
     <div class="row space-between align-center">
         <div>
             <p class="eyebrow">CRM</p>
-            <h1>Клиенты</h1>
+            <h1>{% trans "Клиенты" %}</h1>
         </div>
         <form method="get" class="row" style="gap:0.5rem;">
-            <input class="input" type="text" name="phone" value="{{ search_term }}" placeholder="Телефон">
-            <button class="button" type="submit">Поиск</button>
+            <input class="input" type="text" name="phone" value="{{ search_term }}" placeholder="{% trans 'Телефон' %}">
+            <button class="button" type="submit">{% trans "Поиск" %}</button>
         </form>
     </div>
     <div class="crm-table-wrapper">
         <table class="crm-table">
             <thead>
                 <tr>
-                    <th>Имя</th>
-                    <th>Телефон</th>
-                    <th>Последний заказ</th>
-                    <th>Заявок</th>
+                    <th>{% trans "Имя" %}</th>
+                    <th>{% trans "Телефон" %}</th>
+                    <th>{% trans "Последний заказ" %}</th>
+                    <th>{% trans "Заявок" %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,7 +32,7 @@
                         <td>{{ customer.orders.count }}</td>
                     </tr>
                 {% empty %}
-                    <tr><td colspan="4">Клиенты не найдены.</td></tr>
+                    <tr><td colspan="4">{% trans "Клиенты не найдены." %}</td></tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -39,11 +40,11 @@
     {% if is_paginated %}
         <div class="row align-center space-between">
             {% if page_obj.has_previous %}
-                <a class="button ghost" href="?page={{ page_obj.previous_page_number }}{% if search_term %}&phone={{ search_term }}{% endif %}">Назад</a>
+                <a class="button ghost" href="?page={{ page_obj.previous_page_number }}{% if search_term %}&phone={{ search_term }}{% endif %}">{% trans "Назад" %}</a>
             {% endif %}
-            <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+            <span>{% trans "Страница" %} {{ page_obj.number }} {% trans "из" %} {{ page_obj.paginator.num_pages }}</span>
             {% if page_obj.has_next %}
-                <a class="button ghost" href="?page={{ page_obj.next_page_number }}{% if search_term %}&phone={{ search_term }}{% endif %}">Вперёд</a>
+                <a class="button ghost" href="?page={{ page_obj.next_page_number }}{% if search_term %}&phone={{ search_term }}{% endif %}">{% trans "Вперёд" %}</a>
             {% endif %}
         </div>
     {% endif %}

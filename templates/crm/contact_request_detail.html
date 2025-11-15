@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}CRM — {% trans "Заявка обратной связи" %} #{{ contact_request.id }}{% endblock %}
+{% block content %}
+<div class="crm-layout">
+    <div class="row space-between align-center">
+        <div>
+            <p class="eyebrow">CRM</p>
+            <h1>{% trans "Заявка обратной связи" %} #{{ contact_request.id }}</h1>
+        </div>
+        <a class="button ghost" href="{% url 'crm:contact-requests' %}">← {% trans "Назад к списку" %}</a>
+    </div>
+    
+    <div class="crm-detail-grid">
+        <section class="card">
+            <h2>{% trans "Информация о заявке" %}</h2>
+            <div class="crm-detail-field">
+                <strong>{% trans "Телефон:" %}</strong>
+                <span>{{ contact_request.phone }}</span>
+            </div>
+            {% if contact_request.email %}
+            <div class="crm-detail-field">
+                <strong>Email:</strong>
+                <span>{{ contact_request.email }}</span>
+            </div>
+            {% endif %}
+            {% if contact_request.telegram %}
+            <div class="crm-detail-field">
+                <strong>Telegram:</strong>
+                <span>{{ contact_request.telegram }}</span>
+            </div>
+            {% endif %}
+            {% if contact_request.instagram %}
+            <div class="crm-detail-field">
+                <strong>Instagram:</strong>
+                <span>{{ contact_request.instagram }}</span>
+            </div>
+            {% endif %}
+            <div class="crm-detail-field">
+                <strong>{% trans "Статус:" %}</strong>
+                <span class="crm-tag">{{ contact_request.get_status_display }}</span>
+            </div>
+            <div class="crm-detail-field">
+                <strong>{% trans "Ответственный:" %}</strong>
+                <span>{{ contact_request.assigned_to.name|default:_("Не назначен") }}</span>
+            </div>
+            <div class="crm-detail-field">
+                <strong>{% trans "Создано:" %}</strong>
+                <span>{{ contact_request.created_at|date:"d.m.Y H:i" }}</span>
+            </div>
+            <div class="crm-detail-field">
+                <strong>{% trans "Обновлено:" %}</strong>
+                <span>{{ contact_request.updated_at|date:"d.m.Y H:i" }}</span>
+            </div>
+        </section>
+        
+        <section class="card">
+            <h2>{% trans "Сообщение" %}</h2>
+            <div class="crm-message">
+                {{ contact_request.message|linebreaks }}
+            </div>
+        </section>
+        
+        <section class="card">
+            <h2>{% trans "Управление" %}</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-field">
+                    {{ update_form.status.label_tag }}
+                    {{ update_form.status }}
+                    {{ update_form.status.errors }}
+                </div>
+                <div class="form-field">
+                    {{ update_form.assigned_to.label_tag }}
+                    {{ update_form.assigned_to }}
+                    {{ update_form.assigned_to.errors }}
+                </div>
+                <div class="form-field">
+                    {{ update_form.internal_notes.label_tag }}
+                    {{ update_form.internal_notes }}
+                    {{ update_form.internal_notes.errors }}
+                </div>
+                <button type="submit" class="button">{% trans "Сохранить" %}</button>
+            </form>
+        </section>
+    </div>
+</div>
+{% endblock %}
+

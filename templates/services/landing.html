@@ -1,10 +1,11 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="ru" data-theme="light">
+<html lang="{{ LANGUAGE_CODE|default:'ru' }}" data-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AliHouse — Сервисные услуги</title>
+    <title>AliHouse — {% trans "Сервисные услуги" %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,16 +14,47 @@
     <script src="{% static 'js/theme.js' %}" defer></script>
 </head>
 <body class="landing-page">
+    <!-- Language Switcher Header -->
+    <header class="landing-header">
+        <div class="landing-container">
+            <div class="landing-header-content">
+                <a href="{% url 'services:landing' %}" class="landing-brand">AliHouse</a>
+                <div class="landing-header-controls">
+                    <form action="{% url 'services:set_language' %}" method="post" class="language-switcher">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                        <select name="language" class="language-select" onchange="this.form.submit()">
+                            {% get_current_language as CURRENT_LANGUAGE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% for lang_code, lang_name in LANGUAGES %}
+                                <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
+                                    {% if lang_code == 'ru' %}🇷🇺 Русский
+                                    {% elif lang_code == 'en' %}🇬🇧 English
+                                    {% elif lang_code == 'uz' %}🇺🇿 O'zbek
+                                    {% else %}{{ lang_name }}
+                                    {% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="{% trans 'Переключить тему' %}">
+                        <span class="theme-toggle__icon" aria-hidden="true">☀️</span>
+                        <span class="sr-only">{% trans "Переключить тему" %}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
     <!-- Hero Section -->
     <section class="landing-hero">
         <div class="landing-container">
             <div class="hero-content">
                 <p class="eyebrow" data-animate="fadeInUp" data-delay="0">AliHouse</p>
-                <h1 class="hero-title" data-animate="fadeInUp" data-delay="100">Профессиональные сервисные услуги</h1>
-                <p class="hero-subtitle" data-animate="fadeInUp" data-delay="200">Быстро, качественно, надежно. Мы заботимся о вашем комфорте.</p>
+                <h1 class="hero-title" data-animate="fadeInUp" data-delay="100">{% trans "Профессиональные сервисные услуги" %}</h1>
+                <p class="hero-subtitle" data-animate="fadeInUp" data-delay="200">{% trans "Быстро, качественно, надежно. Мы заботимся о вашем комфорте." %}</p>
                 <div class="hero-cta" data-animate="fadeInUp" data-delay="300">
-                    <a href="{% url 'services:order_create' %}" class="button button-large">Оставить заявку</a>
-                    <a href="{% url 'services:service_list' %}" class="button ghost button-large">Посмотреть услуги</a>
+                    <a href="{% url 'services:contact_request' %}" class="button button-large">{% trans "Оставить заявку" %}</a>
+                    <a href="{% url 'services:service_list' %}" class="button ghost button-large">{% trans "Посмотреть услуги" %}</a>
                 </div>
             </div>
         </div>
@@ -34,15 +66,15 @@
             <div class="stats-grid">
                 <div class="stat-card" data-animate="fadeInUp" data-delay="0">
                     <div class="stat-number">{{ total_customers|default:"0" }}+</div>
-                    <div class="stat-label">Довольных клиентов</div>
+                    <div class="stat-label">{% trans "Довольных клиентов" %}</div>
                 </div>
                 <div class="stat-card" data-animate="fadeInUp" data-delay="100">
                     <div class="stat-number">{{ total_orders|default:"0" }}+</div>
-                    <div class="stat-label">Выполненных заказов</div>
+                    <div class="stat-label">{% trans "Выполненных заказов" %}</div>
                 </div>
                 <div class="stat-card" data-animate="fadeInUp" data-delay="200">
                     <div class="stat-number">{{ years_working|default:"1" }}</div>
-                    <div class="stat-label">Лет на рынке</div>
+                    <div class="stat-label">{% trans "Лет на рынке" %}</div>
                 </div>
             </div>
         </div>
@@ -52,13 +84,13 @@
     {% if featured_services %}
     <section class="landing-services">
         <div class="landing-container">
-            <h2 class="section-title">Наши услуги</h2>
+            <h2 class="section-title">{% trans "Наши услуги" %}</h2>
             <div class="services-grid">
                 {% for service in featured_services %}
                 <div class="service-card" data-animate="fadeInUp" data-delay="{% if forloop.counter == 1 %}100{% elif forloop.counter == 2 %}200{% else %}0{% endif %}">
-                    <h3>{{ service.title }}</h3>
-                    <p class="service-price">{{ service.price }} So'm</p>
-                    <p class="service-description">{{ service.description|truncatewords:15 }}</p>
+                    <h3>{{ service.get_title }}</h3>
+                    <p class="service-price">{{ service.price }} {% trans "So'm" %}</p>
+                    <p class="service-description">{{ service.get_description|truncatewords:15 }}</p>
                 </div>
                 {% endfor %}
             </div>
@@ -69,21 +101,21 @@
     <!-- Gallery Section -->
     <section class="landing-gallery">
         <div class="landing-container">
-            <h2 class="section-title">Наша работа</h2>
+            <h2 class="section-title">{% trans "Наша работа" %}</h2>
             <div class="gallery-grid">
                 <div class="gallery-item" data-animate="fadeIn" data-delay="0">
                     <div class="gallery-placeholder">
-                        <p>Фото работ</p>
+                        <p>{% trans "Фото работ" %}</p>
                     </div>
                 </div>
                 <div class="gallery-item" data-animate="fadeIn" data-delay="100">
                     <div class="gallery-placeholder">
-                        <p>До и после</p>
+                        <p>{% trans "До и после" %}</p>
                     </div>
                 </div>
                 <div class="gallery-item" data-animate="fadeIn" data-delay="200">
                     <div class="gallery-placeholder">
-                        <p>Результаты</p>
+                        <p>{% trans "Результаты" %}</p>
                     </div>
                 </div>
             </div>
@@ -94,9 +126,9 @@
     <section class="landing-cta">
         <div class="landing-container">
             <div class="cta-content">
-                <h2>Готовы начать?</h2>
-                <p>Посмотрите наш полный каталог услуг и выберите то, что вам нужно</p>
-                <a href="{% url 'services:service_list' %}" class="button button-large">Перейти к каталогу</a>
+                <h2>{% trans "Готовы начать?" %}</h2>
+                <p>{% trans "Посмотрите наш полный каталог услуг и выберите то, что вам нужно" %}</p>
+                <a href="{% url 'services:service_list' %}" class="button button-large">{% trans "Перейти к каталогу" %}</a>
             </div>
         </div>
     </section>
@@ -107,33 +139,32 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <h3>AliHouse</h3>
-                    <p>Профессиональные сервисные услуги</p>
+                    <p>{% trans "Профессиональные сервисные услуги" %}</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Услуги</h4>
+                    <h4>{% trans "Услуги" %}</h4>
                     <div class="footer-links">
                         {% for service in footer_services %}
-                        <a href="{% url 'services:service_list' %}">{{ service.title }}</a>
+                        <a href="{% url 'services:service_list' %}">{{ service.get_title }}</a>
                         {% endfor %}
-                        <a href="{% url 'services:service_list' %}" class="footer-link-more">Больше услуг →</a>
+                        <a href="{% url 'services:service_list' %}" class="footer-link-more">{% trans "Больше услуг" %} →</a>
                     </div>
                 </div>
                 <div class="footer-section">
-                    <h4>Аккаунт</h4>
+                    <h4>{% trans "Аккаунт" %}</h4>
                     <div class="footer-links">
                         {% if request.user.is_authenticated %}
-                        <a href="{% url 'services:dashboard' %}">Мои заявки</a>
-                        <a href="{% url 'services:order_create' %}">Создать заявку</a>
-                        <a href="{% url 'services:logout' %}">Выйти</a>
+                        <a href="{% url 'services:dashboard' %}">{% trans "Мои заявки" %}</a>
+                        <a href="{% url 'services:logout' %}">{% trans "Выйти" %}</a>
                         {% else %}
-                        <a href="{% url 'services:login' %}">Войти</a>
-                        <a href="{% url 'services:signup' %}">Регистрация</a>
+                        <a href="{% url 'services:login' %}">{% trans "Войти" %}</a>
+                        <a href="{% url 'services:signup' %}">{% trans "Регистрация" %}</a>
                         {% endif %}
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© {% now 'Y' %} AliHouse. Все права защищены.</p>
+                <p>© {% now 'Y' %} AliHouse. {% trans "Все права защищены." %}</p>
             </div>
         </div>
     </footer>

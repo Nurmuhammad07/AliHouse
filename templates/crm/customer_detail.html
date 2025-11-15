@@ -1,19 +1,20 @@
 {% extends "base.html" %}
-{% block title %}CRM — Клиент {{ customer.name }}{% endblock %}
+{% load i18n %}
+{% block title %}CRM — {% trans "Клиент" %} {{ customer.name }}{% endblock %}
 {% block content %}
 <div class="crm-layout">
-    <a class="back-link" href="{% url 'crm:customers' %}">← Все клиенты</a>
+    <a class="back-link" href="{% url 'crm:customers' %}">← {% trans "Все клиенты" %}</a>
     <h1>{{ customer.name }}</h1>
     <section class="card">
-        <p><strong>Телефон:</strong> {{ customer.phone }}</p>
-        <p><strong>Последний заказ:</strong> {{ customer.last_order_at|date:"d.m.Y H:i"|default:"—" }}</p>
+        <p><strong>{% trans "Телефон:" %}</strong> {{ customer.phone }}</p>
+        <p><strong>{% trans "Последний заказ:" %}</strong> {{ customer.last_order_at|date:"d.m.Y H:i"|default:"—" }}</p>
         <form method="post">
             {% csrf_token %}
             <div class="form-field">
                 {{ form.notes.label_tag }}
                 {{ form.notes }}
             </div>
-            <button class="button" type="submit">Сохранить заметки</button>
+            <button class="button" type="submit">{% trans "Сохранить заметки" %}</button>
         </form>
     </section>
     <section class="crm-table-wrapper">
@@ -21,25 +22,25 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Услуга</th>
-                    <th>Статус</th>
-                    <th>Приоритет</th>
-                    <th>Оператор</th>
-                    <th>Создано</th>
+                    <th>{% trans "Услуга" %}</th>
+                    <th>{% trans "Статус" %}</th>
+                    <th>{% trans "Приоритет" %}</th>
+                    <th>{% trans "Оператор" %}</th>
+                    <th>{% trans "Создано" %}</th>
                 </tr>
             </thead>
             <tbody>
                 {% for order in orders %}
                     <tr>
                         <td><a href="{% url 'crm:order-detail' order.id %}">#{{ order.id }}</a></td>
-                        <td>{{ order.service.title }}</td>
+                        <td>{{ order.service.get_title }}</td>
                         <td>{{ order.get_status_display }}</td>
                         <td>{{ order.get_priority_display }}</td>
                         <td>{{ order.assigned_to.name|default:"—" }}</td>
                         <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
                     </tr>
                 {% empty %}
-                    <tr><td colspan="6">Нет заявок.</td></tr>
+                    <tr><td colspan="6">{% trans "Нет заявок." %}</td></tr>
                 {% endfor %}
             </tbody>
         </table>

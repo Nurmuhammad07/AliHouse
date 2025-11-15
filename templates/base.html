@@ -1,6 +1,7 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="ru" data-theme="light">
+<html lang="{{ LANGUAGE_CODE|default:'ru' }}" data-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +16,7 @@
     <header class="site-header">
         <div class="container header-bar">
             <div class="header-left">
-                <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Меню">
+                <button class="menu-toggle" type="button" aria-expanded="false" aria-label="{% trans 'Меню' %}">
                     <span class="menu-toggle__line"></span>
                     <span class="menu-toggle__line"></span>
                     <span class="menu-toggle__line"></span>
@@ -23,23 +24,44 @@
                 <a href="{% url 'services:landing' %}" class="brand">AliHouse</a>
             </div>
             <nav class="nav" data-open="false">
-                <a href="{% url 'services:service_list' %}">Каталог</a>
+                <a href="{% url 'services:service_list' %}">{% trans "Каталог" %}</a>
                 {% if request.user.is_authenticated %}
                     {% if request.user.role == 'admin' or request.user.role == 'operator' %}
                         <a href="{% url 'crm:dashboard' %}">CRM</a>
+                        {% if request.resolver_match.namespace == 'crm' %}
+                            <a href="{% url 'crm:statistics' %}">{% trans "Статистика" %}</a>
+                        {% endif %}
                     {% endif %}
-                    <a href="{% url 'services:order_create' %}">Новая заявка</a>
-                    <a href="{% url 'services:dashboard' %}">Мои заявки</a>
-                    <a href="{% url 'services:logout' %}">Выйти</a>
+                    <a href="{% url 'services:dashboard' %}">{% trans "Мои заявки" %}</a>
+                    <a href="{% url 'services:logout' %}">{% trans "Выйти" %}</a>
                 {% else %}
-                    <a href="{% url 'services:login' %}">Войти</a>
-                    <a class="button ghost" href="{% url 'services:signup' %}">Регистрация</a>
+                    <a href="{% url 'services:login' %}">{% trans "Войти" %}</a>
+                    <a class="button ghost" href="{% url 'services:signup' %}">{% trans "Регистрация" %}</a>
                 {% endif %}
             </nav>
-            <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Переключить тему">
-                <span class="theme-toggle__icon" aria-hidden="true">☀️</span>
-                <span class="sr-only">Переключить тему</span>
-            </button>
+            <div class="header-controls">
+                <form action="{% url 'services:set_language' %}" method="post" class="language-switcher">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                    <select name="language" class="language-select" onchange="this.form.submit()">
+                        {% get_current_language as CURRENT_LANGUAGE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% for lang_code, lang_name in LANGUAGES %}
+                            <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
+                                {% if lang_code == 'ru' %}🇷🇺 {% trans "Русский" %}
+                                {% elif lang_code == 'en' %}🇬🇧 English
+                                {% elif lang_code == 'uz' %}🇺🇿 O'zbek
+                                {% else %}{{ lang_name }}
+                                {% endif %}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+                <button class="theme-toggle" type="button" aria-pressed="false" aria-label="{% trans 'Переключить тему' %}">
+                    <span class="theme-toggle__icon" aria-hidden="true">☀️</span>
+                    <span class="sr-only">{% trans "Переключить тему" %}</span>
+                </button>
+            </div>
         </div>
     </header>
     <main class="container">
@@ -52,12 +74,14 @@
         {% endif %}
         {% block content %}{% endblock %}
     </main>
+    {% if not request.resolver_match.namespace == 'crm' %}
     <footer class="site-footer">
         <div class="container space-between row align-center">
-            <span>© {% now 'Y' %} AliHouse — сервисные услуги</span>
-            <span>Поддержка: support@alihouse.local</span>
+            <span>© {% now 'Y' %} AliHouse — {% trans "сервисные услуги" %}</span>
+            <span>{% trans "Поддержка" %}: support@alihouse.local</span>
         </div>
     </footer>
+    {% endif %}
 </body>
 </html>
 

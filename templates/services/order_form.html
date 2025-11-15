@@ -1,11 +1,48 @@
 {% extends "base.html" %}
-{% block title %}Новая заявка | AliHouse{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Новая заявка" %} | AliHouse{% endblock %}
 {% block content %}
 <section class="narrow">
-    <h2>Создать заявку</h2>
+    <h2>{% trans "Создать заявку" %}</h2>
+    
+    {% if calculation_params and calculation_params.calculated_price %}
+    <div class="card" style="background: var(--accent-muted); border: 1px solid var(--accent); margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">{% trans "Параметры расчета" %}</h3>
+        {% if calculation_params.sqm %}
+            <p><strong>{% trans "Площадь:" %}</strong> {{ calculation_params.sqm }} {% trans "м²" %}</p>
+        {% endif %}
+        {% if calculation_params.hours %}
+            <p><strong>{% trans "Количество часов:" %}</strong> {{ calculation_params.hours }}</p>
+        {% endif %}
+        {% if calculation_params.items %}
+            <p><strong>{% trans "Количество единиц:" %}</strong> {{ calculation_params.items }}</p>
+        {% endif %}
+        <p style="font-size: 1.2rem; font-weight: 600; color: var(--accent); margin-top: 0.5rem;">
+            <strong>{% trans "Рассчитанная стоимость:" %}</strong> {{ calculation_params.calculated_price }} {% trans "So'm" %}
+        </p>
+    </div>
+    {% endif %}
+    
     <form method="post" class="card form-card">
         {% csrf_token %}
         {{ form.non_field_errors }}
+        
+        {% if calculation_params %}
+            {# Скрытые поля для передачи параметров расчета #}
+            {% if calculation_params.sqm %}
+                <input type="hidden" name="sqm" value="{{ calculation_params.sqm }}">
+            {% endif %}
+            {% if calculation_params.hours %}
+                <input type="hidden" name="hours" value="{{ calculation_params.hours }}">
+            {% endif %}
+            {% if calculation_params.items %}
+                <input type="hidden" name="items" value="{{ calculation_params.items }}">
+            {% endif %}
+            {% if calculation_params.calculated_price %}
+                <input type="hidden" name="calculated_price" value="{{ calculation_params.calculated_price }}">
+            {% endif %}
+        {% endif %}
+        
         <div class="form-field">
             {{ form.service.label_tag }}
             {{ form.service }}
@@ -16,7 +53,7 @@
             {{ form.details }}
             {{ form.details.errors }}
         </div>
-        <button type="submit" class="button">Отправить</button>
+        <button type="submit" class="button">{% trans "Отправить" %}</button>
     </form>
 </section>
 {% endblock %}

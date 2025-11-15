@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}CRM — {% trans "Заявки обратной связи" %}{% endblock %}
+{% block content %}
+<div class="crm-layout">
+    <div class="row space-between align-center">
+        <div>
+            <p class="eyebrow">CRM</p>
+            <h1>{% trans "Заявки обратной связи" %}</h1>
+        </div>
+        <a class="button ghost" href="{% url 'crm:dashboard' %}">{% trans "Дашборд" %}</a>
+    </div>
+    <form method="get" class="crm-filters card">
+        <select name="status" class="input">
+            <option value="">{% trans "Все статусы" %}</option>
+            <option value="new" {% if status_filter == "new" %}selected{% endif %}>{% trans "Новая" %}</option>
+            <option value="in_progress" {% if status_filter == "in_progress" %}selected{% endif %}>{% trans "В работе" %}</option>
+            <option value="contacted" {% if status_filter == "contacted" %}selected{% endif %}>{% trans "Связались" %}</option>
+            <option value="closed" {% if status_filter == "closed" %}selected{% endif %}>{% trans "Закрыта" %}</option>
+        </select>
+        <select name="assigned_to" class="input">
+            <option value="">{% trans "Все операторы" %}</option>
+            {% for operator in operators %}
+                <option value="{{ operator.id }}" {% if assigned_filter == operator.id|stringformat:"s" %}selected{% endif %}>{{ operator.name|default:operator.phone }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="search" class="input" placeholder="{% trans 'Поиск (телефон, email, telegram, instagram)' %}" value="{{ search }}">
+        <button class="button" type="submit">{% trans "Фильтр" %}</button>
+    </form>
+    <div class="crm-table-wrapper">
+        <table class="crm-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>{% trans "Телефон" %}</th>
+                    <th>Email</th>
+                    <th>Telegram</th>
+                    <th>Instagram</th>
+                    <th>{% trans "Статус" %}</th>
+                    <th>{% trans "Оператор" %}</th>
+                    <th>{% trans "Создано" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in contact_requests %}
+                    <tr>
+                        <td><a href="{% url 'crm:contact-request-detail' request.id %}">#{{ request.id }}</a></td>
+                        <td>{{ request.phone }}</td>
+                        <td>{{ request.email|default:"—" }}</td>
+                        <td>{{ request.telegram|default:"—" }}</td>
+                        <td>{{ request.instagram|default:"—" }}</td>
+                        <td><span class="crm-tag">{{ request.get_status_display }}</span></td>
+                        <td>{{ request.assigned_to.name|default:"—" }}</td>
+                        <td>{{ request.created_at|date:"d.m.Y H:i" }}</td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="8">{% trans "Нет заявок." %}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if is_paginated %}
+        <div class="row align-center space-between">
+            {% if page_obj.has_previous %}
+                <a class="button ghost" href="?page={{ page_obj.previous_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.assigned_to %}&assigned_to={{ request.GET.assigned_to }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{% trans "Назад" %}</a>
+            {% endif %}
+            <span>{% trans "Страница" %} {{ page_obj.number }} {% trans "из" %} {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a class="button ghost" href="?page={{ page_obj.next_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.assigned_to %}&assigned_to={{ request.GET.assigned_to }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{% trans "Вперёд" %}</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+

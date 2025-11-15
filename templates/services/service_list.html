@@ -1,15 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Услуги | AliHouse{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Услуги" %} | AliHouse{% endblock %}
 {% block content %}
 <section class="hero">
     <div>
         <p class="eyebrow">AliHouse</p>
-        <h1>Минималистичный сервисный каталог</h1>
-        <p class="muted">Выбирайте услуги, оставляйте заявки и отслеживайте статус без лишнего шума.</p>
+        <h1>{% trans "Минималистичный сервисный каталог" %}</h1>
+        <p class="muted">{% trans "Выбирайте услуги, оставляйте заявки и отслеживайте статус без лишнего шума." %}</p>
         {% if request.user.is_authenticated %}
-            <a class="button" href="{% url 'services:order_create' %}">Создать заявку</a>
+            <a class="button" href="{% url 'services:order_create' %}">{% trans "Создать заявку" %}</a>
         {% else %}
-            <a class="button" href="{% url 'services:signup' %}">Начать</a>
+            <a class="button" href="{% url 'services:signup' %}">{% trans "Начать" %}</a>
         {% endif %}
     </div>
 </section>
@@ -18,18 +19,22 @@
     {% for service in services %}
         <article class="card">
             <div class="row space-between align-center">
-                <h3>{{ service.title }}</h3>
-                <span class="price">{{ service.price }} So'm</span>
+                <h3>{{ service.get_title }}</h3>
+                <span class="price">
+                    {% if service.price_type == "fixed" %}
+                        {{ service.price }} {% trans "So'm" %}
+                    {% else %}
+                        {% trans "от" %} {{ service.min_price|default:service.price }} {% trans "So'm" %}
+                    {% endif %}
+                </span>
             </div>
-            <p>{{ service.description }}</p>
-            {% if request.user.is_authenticated %}
-                <a class="button ghost" href="{% url 'services:order_create' %}?service={{ service.id }}">Заказать</a>
-            {% else %}
-                <p class="muted small">Авторизуйтесь, чтобы оформить заявку.</p>
-            {% endif %}
+            <p>{{ service.get_description|truncatewords:20 }}</p>
+            <div style="margin-top: 1rem;">
+                <a class="button" href="{% url 'services:service_detail' service.id %}">{% trans "Подробнее" %}</a>
+            </div>
         </article>
     {% empty %}
-        <p>Пока нет активных услуг.</p>
+        <p>{% trans "Пока нет активных услуг." %}</p>
     {% endfor %}
 </section>
 {% endblock %}
