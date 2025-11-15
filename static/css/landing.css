@@ -5,33 +5,6 @@
     position: relative;
 }
 
-/* Необычные и стильные шрифты для русского языка на landing page */
-html[lang="ru"] .landing-page * {
-    font-family: "Raleway", "Cormorant Garamond", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif !important;
-    letter-spacing: 0.01em;
-}
-
-html[lang="ru"] .landing-page h1,
-html[lang="ru"] .landing-page h2,
-html[lang="ru"] .landing-page h3,
-html[lang="ru"] .landing-page h4,
-html[lang="ru"] .landing-page .landing-brand,
-html[lang="ru"] .landing-page .hero-title,
-html[lang="ru"] .landing-page .section-title,
-html[lang="ru"] .landing-page .eyebrow {
-    font-family: "Playfair Display", "Cormorant Garamond", "Raleway", "Poppins", "Inter", system-ui, serif !important;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-}
-
-html[lang="ru"] .landing-page body,
-html[lang="ru"] .landing-page p,
-html[lang="ru"] .landing-page span,
-html[lang="ru"] .landing-page div,
-html[lang="ru"] .landing-page a {
-    font-family: "Raleway", "Cormorant Garamond", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif !important;
-}
-
 .landing-header {
     background: rgba(255, 255, 255, 0.85);
     border-bottom: 1px solid var(--border);
@@ -116,9 +89,9 @@ html[lang="ru"] .landing-page a {
 }
 
 @media (max-width: 720px) {
-    .landing-header-content {
+    /* .landing-header-content {
         flex-wrap: wrap;
-    }
+    } */
     
     .landing-header-controls {
         width: 100%;
