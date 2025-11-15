@@ -146,6 +146,22 @@ class OrderCommentForm(forms.ModelForm):
         }
 
 
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ("name", "phone", "notes")
+        labels = {
+            "name": "Имя",
+            "phone": "Телефон",
+            "notes": "Заметки",
+        }
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "input"}),
+            "phone": forms.TextInput(attrs={"class": "input"}),
+            "notes": forms.Textarea(attrs={"class": "input", "rows": 5}),
+        }
+
+
 class CustomerNotesForm(forms.ModelForm):
     class Meta:
         model = Customer

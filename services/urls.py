@@ -1,4 +1,4 @@
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView
 from django.urls import path
 
 from .forms import PhoneAuthenticationForm
@@ -9,6 +9,7 @@ from .views import (
     OrderDetailView,
     ServiceListView,
     SignUpView,
+    logout_view,
 )
 
 app_name = "services"
@@ -24,7 +25,7 @@ urlpatterns = [
         ),
         name="login",
     ),
-    path("logout/", LogoutView.as_view(next_page="services:service_list", http_method_names=["get", "post"]), name="logout"),
+    path("logout/", logout_view, name="logout"),
     path("orders/new/", OrderCreateView.as_view(), name="order_create"),
     path("orders/<int:pk>/", OrderDetailView.as_view(), name="order_detail"),
     path("dashboard/", DashboardView.as_view(), name="dashboard"),

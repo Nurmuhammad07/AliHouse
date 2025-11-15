@@ -17,32 +17,43 @@ class ServicesConfig(AppConfig):
         if any(cmd in sys.argv for cmd in ["migrate", "makemigrations", "collectstatic", "shell", "test"]):
             return
 
-        # Проверяем, что база данных готова
-        try:
-            from django.db import connection
-            connection.ensure_connection()
-        except Exception:
-            return
+        # Откладываем создание суперпользователя до полной инициализации Django
+        # Используем threading для выполнения после полной загрузки
+        import threading
 
-        # Импортируем здесь, чтобы избежать циклических импортов
-        try:
-            from django.contrib.auth import get_user_model
+        def create_superuser_delayed():
+            """Создаёт суперпользователя после полной загрузки Django."""
+            try:
+                from django.apps import apps
+                # Ждём, пока все приложения загрузятся
+                if not apps.ready:
+                    return
 
-            User = get_user_model()
+                from django.contrib.auth import get_user_model
+                from django.db import connection
 
-            # Создаём суперпользователя из переменных окружения
-            phone = os.environ.get("DJANGO_SUPERUSER_PHONE")
-            password = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
-            name = os.environ.get("DJANGO_SUPERUSER_NAME", "Admin")
+                # Проверяем, что база данных готова
+                connection.ensure_connection()
 
-            if not phone or not password:
-                return
+                User = get_user_model()
 
-            if not User.objects.filter(phone=phone).exists():
-                User.objects.create_superuser(phone=phone, name=name, password=password)
-                logger.info(f"✅ Суперпользователь создан: {name} ({phone})")
-        except Exception as e:
-            # Игнорируем ошибки при первом запуске (например, таблицы ещё не созданы)
-            logger.debug(f"Не удалось создать суперпользователя (это нормально при первом запуске): {e}")
+                # Создаём суперпользователя из переменных окружения
+                phone = os.environ.get("DJANGO_SUPERUSER_PHONE")
+                password = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
+                name = os.environ.get("DJANGO_SUPERUSER_NAME", "Admin")
+
+                if not phone or not password:
+                    return
+
+                if not User.objects.filter(phone=phone).exists():
+                    User.objects.create_superuser(phone=phone, name=name, password=password)
+                    logger.info(f"✅ Суперпользователь создан: {name} ({phone})")
+            except Exception as e:
+                # Игнорируем ошибки при первом запуске
+                logger.debug(f"Не удалось создать суперпользователя: {e}")
+
+        # Запускаем в отдельном потоке с небольшой задержкой
+        thread = threading.Thread(target=create_superuser_delayed, daemon=True)
+        thread.start()
     verbose_name = "Сервис AliHouse"
 
