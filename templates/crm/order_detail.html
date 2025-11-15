@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}CRM — Заявка #{{ order.id }}{% endblock %}
+{% block content %}
+<div class="crm-layout">
+    <a class="back-link" href="{% url 'crm:orders' %}">← Назад к списку</a>
+    <h1>Заявка #{{ order.id }}</h1>
+    <section class="card">
+        <h3>Информация</h3>
+        <p><strong>Клиент:</strong> {{ order.customer.name|default:order.user.name }} ({{ order.customer.phone|default:order.user.phone }})</p>
+        <p><strong>Услуга:</strong> {{ order.service.title }}</p>
+        <p><strong>Статус:</strong> {{ order.get_status_display }}</p>
+        <p><strong>Приоритет:</strong> {{ order.get_priority_display }}</p>
+        <p><strong>Ответственный:</strong> {{ order.assigned_to.name|default:"Не назначен" }}</p>
+    </section>
+    <section class="card">
+        <h3>Управление</h3>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_order">
+            <div class="crm-filters">
+                {{ order_form.status }}
+                {{ order_form.priority }}
+                {{ order_form.assigned_to }}
+            </div>
+            <div class="form-field">
+                {{ order_form.internal_notes.label_tag }}
+                {{ order_form.internal_notes }}
+            </div>
+            <button class="button" type="submit">Сохранить</button>
+        </form>
+    </section>
+    <section class="card">
+        <h3>Комментарии</h3>
+        <form method="post" class="form-field">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="add_comment">
+            {{ comment_form.text }}
+            <button class="button ghost" type="submit">Добавить</button>
+        </form>
+        <div class="crm-section">
+            {% for comment in order.comments.all %}
+                <div class="crm-card">
+                    <p class="muted small">{{ comment.operator.name }} • {{ comment.created_at|date:"d.m.Y H:i" }}</p>
+                    <p>{{ comment.text }}</p>
+                </div>
+            {% empty %}
+                <p class="muted">Комментариев пока нет.</p>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+

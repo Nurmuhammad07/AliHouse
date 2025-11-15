@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Новая заявка | AliHouse{% endblock %}
+{% block content %}
+<section class="narrow">
+    <h2>Создать заявку</h2>
+    <form method="post" class="card form-card">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-field">
+            {{ form.service.label_tag }}
+            {{ form.service }}
+            {{ form.service.errors }}
+        </div>
+        <div class="form-field">
+            {{ form.details.label_tag }}
+            {{ form.details }}
+            {{ form.details.errors }}
+        </div>
+        <button type="submit" class="button">Отправить</button>
+    </form>
+</section>
+{% endblock %}
+

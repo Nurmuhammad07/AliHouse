@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}CRM — Дашборд{% endblock %}
+{% block content %}
+<div class="crm-layout">
+    <div>
+        <p class="eyebrow">CRM</p>
+        <h1>Дашборд</h1>
+    </div>
+    <section class="crm-cards">
+        <article class="crm-card">
+            <h3>Новые заявки</h3>
+            <strong>{{ new_orders }}</strong>
+        </article>
+        <article class="crm-card">
+            <h3>В работе</h3>
+            <strong>{{ in_progress_orders }}</strong>
+        </article>
+        <article class="crm-card">
+            <h3>Завершено</h3>
+            <strong>{{ done_orders }}</strong>
+        </article>
+    </section>
+    <section class="crm-section">
+        <div class="row space-between align-center">
+            <h2>Последние заявки</h2>
+            <a class="button ghost" href="{% url 'crm:orders' %}">Все заявки</a>
+        </div>
+        <div class="crm-table-wrapper">
+            <table class="crm-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Клиент</th>
+                        <th>Услуга</th>
+                        <th>Статус</th>
+                        <th>Обновлено</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in recent_orders %}
+                        <tr>
+                            <td><a href="{% url 'crm:order-detail' order.id %}">#{{ order.id }}</a></td>
+                            <td>{{ order.customer.name|default:order.user.name }}</td>
+                            <td>{{ order.service.title }}</td>
+                            <td><span class="crm-tag">{{ order.get_status_display }}</span></td>
+                            <td>{{ order.updated_at|date:"d.m.Y H:i" }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="5">Нет данных.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section class="crm-section">
+        <div class="row space-between align-center">
+            <h2>Новые клиенты</h2>
+            <a class="button ghost" href="{% url 'crm:customers' %}">Все клиенты</a>
+        </div>
+        <div class="crm-table-wrapper">
+            <table class="crm-table">
+                <thead>
+                    <tr>
+                        <th>Имя</th>
+                        <th>Телефон</th>
+                        <th>Последний заказ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in new_customers %}
+                        <tr>
+                            <td><a href="{% url 'crm:customer-detail' customer.id %}">{{ customer.name }}</a></td>
+                            <td>{{ customer.phone }}</td>
+                            <td>{{ customer.last_order_at|date:"d.m.Y H:i"|default:"—" }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="3">Нет клиентов.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %}
+

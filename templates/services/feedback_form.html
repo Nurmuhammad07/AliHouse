@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Отзыв по заявке #{{ order.id }} | AliHouse{% endblock %}
+{% block content %}
+<section class="narrow">
+    <h2>Отзыв по заявке #{{ order.id }}</h2>
+    <form method="post" class="card form-card">
+        {% csrf_token %}
+        <div class="form-field">
+            {{ form.rating.label_tag }}
+            {{ form.rating }}
+            {{ form.rating.errors }}
+        </div>
+        <div class="form-field">
+            {{ form.text.label_tag }}
+            {{ form.text }}
+            {{ form.text.errors }}
+        </div>
+        <button type="submit" class="button">Сохранить</button>
+    </form>
+</section>
+{% endblock %}
+

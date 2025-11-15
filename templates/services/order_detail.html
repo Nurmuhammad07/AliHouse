@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Заявка #{{ order.id }} | AliHouse{% endblock %}
+{% block content %}
+<section class="narrow">
+    <h2>Заявка #{{ order.id }}</h2>
+    <div class="card">
+        <p><strong>Услуга:</strong> {{ order.service.title }}</p>
+        <p><strong>Статус:</strong> {{ order.get_status_display }}</p>
+        <p><strong>Комментарий:</strong> {{ order.details|default:"—" }}</p>
+        <p class="muted">Создано: {{ order.created_at|date:"d.m.Y H:i" }}</p>
+        <p class="muted">Обновлено: {{ order.updated_at|date:"d.m.Y H:i" }}</p>
+        {% if order.feedback %}
+            <div class="feedback">
+                <p><strong>Оценка:</strong> {{ order.feedback.rating }}/5</p>
+                <p>{{ order.feedback.text }}</p>
+            </div>
+        {% elif order.status == 'done' %}
+            <a class="button ghost" href="{% url 'services:feedback' order.id %}">Оставить отзыв</a>
+        {% endif %}
+    </div>
+    <a href="{% url 'services:dashboard' %}" class="back-link">Вернуться к списку</a>
+</section>
+{% endblock %}
+

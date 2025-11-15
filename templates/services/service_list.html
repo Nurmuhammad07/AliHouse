@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Услуги | AliHouse{% endblock %}
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">AliHouse</p>
+        <h1>Минималистичный сервисный каталог</h1>
+        <p class="muted">Выбирайте услуги, оставляйте заявки и отслеживайте статус без лишнего шума.</p>
+        {% if request.user.is_authenticated %}
+            <a class="button" href="{% url 'services:order_create' %}">Создать заявку</a>
+        {% else %}
+            <a class="button" href="{% url 'services:signup' %}">Начать</a>
+        {% endif %}
+    </div>
+</section>
+
+<section class="grid">
+    {% for service in services %}
+        <article class="card">
+            <div class="row space-between align-center">
+                <h3>{{ service.title }}</h3>
+                <span class="price">{{ service.price }} So'm</span>
+            </div>
+            <p>{{ service.description }}</p>
+            {% if request.user.is_authenticated %}
+                <a class="button ghost" href="{% url 'services:order_create' %}?service={{ service.id }}">Заказать</a>
+            {% else %}
+                <p class="muted small">Авторизуйтесь, чтобы оформить заявку.</p>
+            {% endif %}
+        </article>
+    {% empty %}
+        <p>Пока нет активных услуг.</p>
+    {% endfor %}
+</section>
+{% endblock %}
+
