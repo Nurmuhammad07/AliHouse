@@ -129,7 +129,7 @@ AUTH_USER_MODEL = "services.User"
 
 LOGIN_URL = "services:login"
 LOGIN_REDIRECT_URL = "services:dashboard"
-LOGOUT_REDIRECT_URL = "services:login"
+LOGOUT_REDIRECT_URL = "services:landing"
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [

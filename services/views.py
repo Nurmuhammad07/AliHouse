@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
@@ -5,11 +7,34 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
-from django.views.generic import CreateView, DetailView, FormView, ListView, UpdateView
+from django.views.generic import CreateView, DetailView, FormView, ListView, TemplateView, UpdateView
 from django.views.decorators.http import require_http_methods
 
 from .forms import CustomerForm, FeedbackForm, OrderCommentForm, OrderForm, OrderUpdateForm, SignUpForm
 from .models import Customer, Order, OrderComment, Service, User
+
+
+class LandingPageView(TemplateView):
+    """Landing page - главная страница сайта."""
+    template_name = "services/landing.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Статистика компании
+        context["total_customers"] = Customer.objects.count()
+        context["total_orders"] = Order.objects.filter(status=Order.Status.DONE).count()
+        # Годы работы (можно настроить в настройках или использовать дату создания первого заказа)
+        first_order = Order.objects.order_by("created_at").first()
+        if first_order:
+            years_working = (timezone.now() - first_order.created_at).days // 365
+            context["years_working"] = max(1, years_working)
+        else:
+            context["years_working"] = 1
+        # Последние услуги для показа
+        context["featured_services"] = Service.objects.filter(is_active=True)[:3]
+        # Услуги для футера (только 2)
+        context["footer_services"] = Service.objects.filter(is_active=True)[:2]
+        return context
 
 
 class ServiceListView(ListView):
@@ -121,18 +146,22 @@ class OperatorOrAdminRequiredMixin(AccessMixin):
 # CRM Views
 class CRMDashboardView(OperatorOrAdminRequiredMixin, ListView):
     template_name = "crm/dashboard.html"
-    context_object_name = "orders"
     model = Order
 
     def get_queryset(self):
-        return Order.objects.all().select_related("user", "service", "assigned_to").order_by("-created_at")[:10]
+        return Order.objects.all().select_related("user", "service", "assigned_to", "customer").order_by("-created_at")[:10]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["new_orders_count"] = Order.objects.filter(status=Order.Status.CREATED).count()
-        context["in_progress_orders_count"] = Order.objects.filter(status=Order.Status.IN_PROGRESS).count()
-        context["done_orders_count"] = Order.objects.filter(status=Order.Status.DONE).count()
-        context["new_customers_count"] = Customer.objects.filter(created_at__date=timezone.now().date()).count()
+        # Статистика заявок
+        context["new_orders"] = Order.objects.filter(status=Order.Status.CREATED).count()
+        context["in_progress_orders"] = Order.objects.filter(status=Order.Status.IN_PROGRESS).count()
+        context["done_orders"] = Order.objects.filter(status=Order.Status.DONE).count()
+        # Последние заявки
+        context["recent_orders"] = Order.objects.all().select_related("user", "service", "customer").order_by("-created_at")[:10]
+        # Новые клиенты (за последние 7 дней)
+        week_ago = timezone.now() - timedelta(days=7)
+        context["new_customers"] = Customer.objects.filter(created_at__gte=week_ago).order_by("-created_at")[:10]
         return context
 
 
@@ -182,15 +211,47 @@ class CRMOrderDetailView(OperatorOrAdminRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Передаем форму как order_form для шаблона
+        if "form" in context:
+            context["order_form"] = context["form"]
+        else:
+            order = self.get_object()
+            context["order_form"] = OrderUpdateForm(
+                instance=order,
+                operator_queryset=User.objects.filter(role__in=[User.Role.ADMIN, User.Role.OPERATOR])
+            )
         context["comment_form"] = OrderCommentForm()
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        action = request.POST.get("action")
+        
+        # Обработка добавления комментария
+        if action == "add_comment":
+            comment_form = OrderCommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.order = self.object
+                comment.operator = request.user
+                comment.save()
+                messages.success(request, "Комментарий добавлен.")
+                return redirect("crm:order-detail", pk=self.object.pk)
+            else:
+                # Если форма комментария невалидна, показываем ошибки
+                context = self.get_context_data()
+                context["comment_form"] = comment_form
+                return self.render_to_response(context)
+        
+        # Обработка обновления заявки
+        return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
         messages.success(self.request, "Заявка успешно обновлена.")
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("crm:order_detail", kwargs={"pk": self.object.pk})
+        return reverse("crm:order-detail", kwargs={"pk": self.object.pk})
 
 
 class OrderCommentCreateView(OperatorOrAdminRequiredMixin, CreateView):
@@ -205,7 +266,7 @@ class OrderCommentCreateView(OperatorOrAdminRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("crm:order_detail", kwargs={"pk": self.kwargs["pk"]})
+        return reverse("crm:order-detail", kwargs={"pk": self.kwargs["pk"]})
 
 
 class CRMCustomerListView(OperatorOrAdminRequiredMixin, ListView):

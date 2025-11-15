@@ -1,6 +1,7 @@
 :root {
     color-scheme: light;
     font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --font-heading: "Poppins", "Inter", system-ui, sans-serif;
     --bg: #fdfdfd;
     --surface: #ffffff;
     --surface-muted: #f4f5f7;
@@ -119,10 +120,18 @@ body.menu-open {
 }
 
 .brand {
+    font-family: var(--font-heading);
     font-weight: 700;
+    font-size: 1.35rem;
     color: var(--text);
     text-decoration: none;
-    letter-spacing: 0.04em;
+    letter-spacing: -0.02em;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.brand:hover {
+    transform: translateY(-1px);
+    opacity: 0.85;
 }
 
 .nav {
@@ -136,13 +145,32 @@ body.menu-open {
     color: var(--text);
     text-decoration: none;
     font-weight: 600;
+    font-family: var(--font-heading);
     padding: 0.35rem 0.75rem;
     border-radius: 999px;
-    transition: background 0.2s ease;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+.nav a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
 }
 
 .nav a:hover {
     background: var(--accent-muted);
+    transform: translateY(-1px);
+}
+
+.nav a:hover::after {
+    width: 60%;
 }
 
 :root[data-theme="dark"] .nav a:hover {
@@ -153,10 +181,41 @@ body.menu-open {
     padding: 2.5rem 0 1.5rem;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+}
+
 .hero h1 {
     font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 700;
     margin-bottom: 0.6rem;
     line-height: 1.2;
+    background: linear-gradient(135deg, var(--text) 0%, var(--text) 50%, var(--muted) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+:root[data-theme="dark"] .hero h1 {
+    background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .hero .muted {
@@ -164,10 +223,13 @@ body.menu-open {
 }
 
 .eyebrow {
+    font-family: var(--font-heading);
     text-transform: uppercase;
     letter-spacing: 0.2em;
     color: var(--muted);
     font-size: 0.75rem;
+    font-weight: 600;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
 .muted {
@@ -191,6 +253,40 @@ body.menu-open {
     padding: 1.75rem;
     border: 1px solid var(--glass-border);
     box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(15, 21, 48, 0.18);
+    border-color: var(--accent-muted);
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+:root[data-theme="dark"] .card:hover {
+    box-shadow: 0 24px 70px rgba(1, 1, 3, 0.9);
+    border-color: rgba(255, 174, 82, 0.2);
+}
+
+:root[data-theme="dark"] .card::before {
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
 
 .glass {
@@ -247,8 +343,36 @@ body.menu-open {
     justify-content: center;
     cursor: pointer;
     font-weight: 600;
-    transition: background 0.2s ease, transform 0.2s ease;
+    font-family: var(--font-heading);
+    letter-spacing: 0.01em;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--button-shadow);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.button > * {
+    position: relative;
+    z-index: 2;
+}
+
+.button::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.button:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .button.ghost {
@@ -258,12 +382,45 @@ body.menu-open {
     box-shadow: none;
 }
 
+.button.ghost:hover {
+    color: var(--accent);
+    background: var(--accent-muted);
+}
+
+:root[data-theme="dark"] .button.ghost:hover {
+    background: rgba(255, 174, 82, 0.15);
+    color: var(--accent);
+}
+
+.button.ghost::before {
+    background: rgba(31, 42, 68, 0.1);
+}
+
+:root[data-theme="dark"] .button.ghost::before {
+    background: rgba(255, 174, 82, 0.15);
+}
+
 .button:hover {
     background: var(--accent-hover);
-    transform: translateY(-1px);
+    color: var(--accent-contrast);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(31, 42, 68, 0.4);
+}
+
+.button:hover > * {
+    color: var(--accent-contrast);
+}
+
+.button:active {
+    transform: translateY(0);
 }
 
 .input,
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
 select,
 textarea {
     width: 100%;
@@ -277,6 +434,11 @@ textarea {
 }
 
 .input:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
 select:focus,
 textarea:focus {
     outline: none;
@@ -285,6 +447,11 @@ textarea:focus {
 }
 
 :root[data-theme="dark"] .input:focus,
+:root[data-theme="dark"] input[type="text"]:focus,
+:root[data-theme="dark"] input[type="password"]:focus,
+:root[data-theme="dark"] input[type="email"]:focus,
+:root[data-theme="dark"] input[type="tel"]:focus,
+:root[data-theme="dark"] input[type="number"]:focus,
 :root[data-theme="dark"] select:focus,
 :root[data-theme="dark"] textarea:focus {
     box-shadow: 0 0 0 3px rgba(93, 131, 255, 0.25);
@@ -322,6 +489,11 @@ textarea:focus {
 .narrow {
     max-width: 520px;
     margin: 0 auto;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.form-card {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
 .price {

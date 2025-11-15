@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AliHouse — Сервисные услуги</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+    <script src="{% static 'js/theme.js' %}" defer></script>
+</head>
+<body class="landing-page">
+    <!-- Hero Section -->
+    <section class="landing-hero">
+        <div class="landing-container">
+            <div class="hero-content">
+                <p class="eyebrow" data-animate="fadeInUp" data-delay="0">AliHouse</p>
+                <h1 class="hero-title" data-animate="fadeInUp" data-delay="100">Профессиональные сервисные услуги</h1>
+                <p class="hero-subtitle" data-animate="fadeInUp" data-delay="200">Быстро, качественно, надежно. Мы заботимся о вашем комфорте.</p>
+                <div class="hero-cta" data-animate="fadeInUp" data-delay="300">
+                    <a href="{% url 'services:order_create' %}" class="button button-large">Оставить заявку</a>
+                    <a href="{% url 'services:service_list' %}" class="button ghost button-large">Посмотреть услуги</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="landing-stats">
+        <div class="landing-container">
+            <div class="stats-grid">
+                <div class="stat-card" data-animate="fadeInUp" data-delay="0">
+                    <div class="stat-number">{{ total_customers|default:"0" }}+</div>
+                    <div class="stat-label">Довольных клиентов</div>
+                </div>
+                <div class="stat-card" data-animate="fadeInUp" data-delay="100">
+                    <div class="stat-number">{{ total_orders|default:"0" }}+</div>
+                    <div class="stat-label">Выполненных заказов</div>
+                </div>
+                <div class="stat-card" data-animate="fadeInUp" data-delay="200">
+                    <div class="stat-number">{{ years_working|default:"1" }}</div>
+                    <div class="stat-label">Лет на рынке</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Preview -->
+    {% if featured_services %}
+    <section class="landing-services">
+        <div class="landing-container">
+            <h2 class="section-title">Наши услуги</h2>
+            <div class="services-grid">
+                {% for service in featured_services %}
+                <div class="service-card" data-animate="fadeInUp" data-delay="{% if forloop.counter == 1 %}100{% elif forloop.counter == 2 %}200{% else %}0{% endif %}">
+                    <h3>{{ service.title }}</h3>
+                    <p class="service-price">{{ service.price }} So'm</p>
+                    <p class="service-description">{{ service.description|truncatewords:15 }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Gallery Section -->
+    <section class="landing-gallery">
+        <div class="landing-container">
+            <h2 class="section-title">Наша работа</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-animate="fadeIn" data-delay="0">
+                    <div class="gallery-placeholder">
+                        <p>Фото работ</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-animate="fadeIn" data-delay="100">
+                    <div class="gallery-placeholder">
+                        <p>До и после</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-animate="fadeIn" data-delay="200">
+                    <div class="gallery-placeholder">
+                        <p>Результаты</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="landing-cta">
+        <div class="landing-container">
+            <div class="cta-content">
+                <h2>Готовы начать?</h2>
+                <p>Посмотрите наш полный каталог услуг и выберите то, что вам нужно</p>
+                <a href="{% url 'services:service_list' %}" class="button button-large">Перейти к каталогу</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+        <div class="landing-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>AliHouse</h3>
+                    <p>Профессиональные сервисные услуги</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Услуги</h4>
+                    <div class="footer-links">
+                        {% for service in footer_services %}
+                        <a href="{% url 'services:service_list' %}">{{ service.title }}</a>
+                        {% endfor %}
+                        <a href="{% url 'services:service_list' %}" class="footer-link-more">Больше услуг →</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Аккаунт</h4>
+                    <div class="footer-links">
+                        {% if request.user.is_authenticated %}
+                        <a href="{% url 'services:dashboard' %}">Мои заявки</a>
+                        <a href="{% url 'services:order_create' %}">Создать заявку</a>
+                        <a href="{% url 'services:logout' %}">Выйти</a>
+                        {% else %}
+                        <a href="{% url 'services:login' %}">Войти</a>
+                        <a href="{% url 'services:signup' %}">Регистрация</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© {% now 'Y' %} AliHouse. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/landing.js' %}" defer></script>
+</body>
+</html>
+

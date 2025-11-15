@@ -16,17 +16,27 @@
         <h3>Управление</h3>
         <form method="post">
             {% csrf_token %}
-            <input type="hidden" name="action" value="update_order">
-            <div class="crm-filters">
+            <div class="form-field">
+                <label for="{{ order_form.status.id_for_label }}"><strong>Статус:</strong></label>
                 {{ order_form.status }}
-                {{ order_form.priority }}
-                {{ order_form.assigned_to }}
+                {{ order_form.status.errors }}
             </div>
             <div class="form-field">
-                {{ order_form.internal_notes.label_tag }}
-                {{ order_form.internal_notes }}
+                <label for="{{ order_form.priority.id_for_label }}"><strong>Приоритет:</strong></label>
+                {{ order_form.priority }}
+                {{ order_form.priority.errors }}
             </div>
-            <button class="button" type="submit">Сохранить</button>
+            <div class="form-field">
+                <label for="{{ order_form.assigned_to.id_for_label }}"><strong>Ответственный оператор:</strong></label>
+                {{ order_form.assigned_to }}
+                {{ order_form.assigned_to.errors }}
+            </div>
+            <div class="form-field">
+                <label for="{{ order_form.internal_notes.id_for_label }}"><strong>Внутренние заметки:</strong></label>
+                {{ order_form.internal_notes }}
+                {{ order_form.internal_notes.errors }}
+            </div>
+            <button class="button" type="submit">Сохранить изменения</button>
         </form>
     </section>
     <section class="card">

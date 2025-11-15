@@ -3,13 +3,6 @@
 {% block content %}
 <section class="narrow">
     <h2>Войти</h2>
-    {% if messages %}
-        {% for message in messages %}
-            {% if message.tags == 'info' %}
-                <div class="message info">{{ message }}</div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
     <form method="post" class="card form-card">
         {% csrf_token %}
         {{ form.non_field_errors }}

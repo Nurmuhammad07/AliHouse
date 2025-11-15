@@ -5,6 +5,7 @@ from .forms import PhoneAuthenticationForm
 from .views import (
     DashboardView,
     FeedbackCreateView,
+    LandingPageView,
     OrderCreateView,
     OrderDetailView,
     ServiceListView,
@@ -15,7 +16,8 @@ from .views import (
 app_name = "services"
 
 urlpatterns = [
-    path("", ServiceListView.as_view(), name="service_list"),
+    path("", LandingPageView.as_view(), name="landing"),
+    path("catalog/", ServiceListView.as_view(), name="service_list"),
     path("signup/", SignUpView.as_view(), name="signup"),
     path(
         "login/",

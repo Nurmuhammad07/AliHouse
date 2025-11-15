@@ -9,9 +9,18 @@ class PhoneAuthenticationForm(AuthenticationForm):
         label="Телефон",
         widget=forms.TextInput(
             attrs={
-                "placeholder": "+7 999 000 00 00",
+                "placeholder": "+998",
                 "class": "input",
                 "autocomplete": "tel",
+            }
+        ),
+    )
+    password = forms.CharField(
+        label="Пароль",
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "input",
+                "autocomplete": "current-password",
             }
         ),
     )
@@ -32,7 +41,7 @@ class SignUpForm(forms.ModelForm):
         fields = ("name", "phone")
         widgets = {
             "name": forms.TextInput(attrs={"class": "input", "placeholder": "Имя"}),
-            "phone": forms.TextInput(attrs={"class": "input", "placeholder": "+7 999 000 00 00"}),
+            "phone": forms.TextInput(attrs={"class": "input", "placeholder": "+998"}),
         }
 
     def clean_phone(self):
@@ -110,7 +119,7 @@ class OrderFilterForm(forms.Form):
     phone = forms.CharField(
         label="Телефон клиента",
         required=False,
-        widget=forms.TextInput(attrs={"class": "input", "placeholder": "+7 ..."}),
+        widget=forms.TextInput(attrs={"class": "input", "placeholder": "+998"}),
     )
 
     def __init__(self, *args, operators=None, **kwargs):
@@ -123,11 +132,17 @@ class OrderUpdateForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ("status", "priority", "assigned_to", "internal_notes")
+        labels = {
+            "status": "Статус",
+            "priority": "Приоритет",
+            "assigned_to": "Ответственный оператор",
+            "internal_notes": "Внутренние заметки",
+        }
         widgets = {
             "status": forms.Select(attrs={"class": "input"}),
             "priority": forms.Select(attrs={"class": "input"}),
             "assigned_to": forms.Select(attrs={"class": "input"}),
-            "internal_notes": forms.Textarea(attrs={"class": "input", "rows": 3}),
+            "internal_notes": forms.Textarea(attrs={"class": "input", "rows": 4, "placeholder": "Внутренние заметки для операторов..."}),
         }
 
     def __init__(self, *args, operator_queryset=None, **kwargs):
@@ -135,6 +150,7 @@ class OrderUpdateForm(forms.ModelForm):
         qs = operator_queryset or User.objects.filter(role__in=[User.Role.ADMIN, User.Role.OPERATOR])
         self.fields["assigned_to"].queryset = qs
         self.fields["assigned_to"].required = False
+        self.fields["assigned_to"].empty_label = "Не назначен"
 
 
 class OrderCommentForm(forms.ModelForm):
