@@ -4,7 +4,14 @@
 <html lang="{{ LANGUAGE_CODE|default:'ru' }}" data-theme="light">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="Профессиональные сервисные услуги. Быстро, качественно, надежно.">
+    <meta name="theme-color" content="#ff6b35">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="AliHouse">
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <link rel="apple-touch-icon" href="{% static 'icons/icon-192x192.png' %}">
     <title>AliHouse — {% trans "Сервисные услуги" %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,6 +20,7 @@
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
     <link rel="stylesheet" href="{% static 'css/landing.css' %}">
     <script src="{% static 'js/theme.js' %}" defer></script>
+    <script src="{% static 'js/pwa.js' %}" defer></script>
 </head>
 <body class="landing-page">
     <!-- Language Switcher Header -->
