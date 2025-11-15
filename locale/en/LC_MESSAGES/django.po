@@ -551,6 +551,9 @@ msgstr "Management"
 msgid "Услуга"
 msgstr "Service"
 
+msgid "Услуга:"
+msgstr "Service:"
+
 msgid "Услуги"
 msgstr "Services"
 
@@ -653,3 +656,143 @@ msgstr "Operators statistics"
 msgid "Назначено заявок"
 msgstr "Assigned orders"
 
+msgid "Каталог услуг"
+msgstr "Services catalog"
+
+msgid "Перейти в каталог"
+msgstr "Go to catalog"
+
+msgid "Поиск"
+msgstr "Search"
+
+msgid "Сохранить заметки"
+msgstr "Save notes"
+
+msgid "Сохранить изменения"
+msgstr "Save changes"
+
+msgid "Добавить"
+msgstr "Add"
+
+msgid "Комментарии"
+msgstr "Comments"
+
+msgid "Комментариев пока нет."
+msgstr "No comments yet."
+
+msgid "Информация"
+msgstr "Information"
+
+msgid "Комментарий клиента"
+msgstr "Client comment"
+
+msgid "Отзыв клиента"
+msgstr "Client review"
+
+msgid "Оставлен"
+msgstr "Left"
+
+msgid "Внутренние заметки:"
+msgstr "Internal notes:"
+
+msgid "Не назначен"
+msgstr "Not assigned"
+
+msgid "Страница"
+msgstr "Page"
+
+msgid "из"
+msgstr "of"
+
+msgid "Клиенты не найдены."
+msgstr "Clients not found."
+
+msgid "Нет заявок."
+msgstr "No orders."
+
+msgid "Последний заказ"
+msgstr "Last order"
+
+msgid "Заявок"
+msgstr "Orders"
+
+msgid "Все клиенты"
+msgstr "All clients"
+
+msgid "Ваш комментарий"
+msgstr "Your comment"
+
+msgid "Ваш отзыв"
+msgstr "Your review"
+
+msgid "Заявка завершена"
+msgstr "Order completed"
+
+msgid "Пожалуйста, оставьте отзыв о качестве выполненной работы"
+msgstr "Please leave a review about the quality of the work performed"
+
+msgid "Оставить отзыв"
+msgstr "Leave review"
+
+msgid "Ответственный оператор:"
+msgstr "Responsible operator:"
+
+msgid "Приоритет:"
+msgstr "Priority:"
+
+msgid "Клиент:"
+msgstr "Client:"
+
+msgid "Параметры расчета цены:"
+msgstr "Price calculation parameters:"
+
+msgid "Ваш комментарий:"
+msgstr "Your comment:"
+
+msgid "Оценка:"
+msgstr "Grade:"
+
+msgid "Оставлен:"
+msgstr "Left at:"
+
+msgid "Комментарий клиента:"
+msgstr "Customer comment:"
+
+msgid "Последний заказ:"
+msgstr "Last order:"
+
+msgid "Поиск (телефон, email, telegram, instagram)"
+msgstr "Search (phone, email, Telegram, Instagram)"
+
+msgid "Каталог"
+msgstr "Catalog"
+
+msgid "Калькулятор цены"
+msgstr "Price calculator"
+
+msgid "Введите количество единиц для расчета стоимости"
+msgstr "Enter the number of units to calculate the cost"
+
+msgid "Рассчитать цену"
+msgstr "Calculate the price"
+
+msgid "Оформить заявку"
+msgstr "Submit an application"
+
+msgid "Назад к каталогу"
+msgstr "Back to the catalog"
+
+msgid "Подробное описание"
+msgstr "Detailed description"
+
+msgid "Поддержка"
+msgstr "Support"
+
+msgid "Зарегистрироваться"
+msgstr "Register"
+
+msgid "сервисные услуги"
+msgstr "service services"
+
+msgid "Введите площадь помещения для расчета стоимости"
+msgstr "Enter the area of ​​the room to calculate the cost"

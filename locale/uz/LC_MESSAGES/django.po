@@ -102,7 +102,7 @@ msgid "Вход"
 msgstr "Kirish"
 
 msgid "Вы уже оставили отзыв для этой заявки."
-msgstr "Siz allaqachon bu buyurtma uchun sharh qoldirdingiz."
+msgstr "Siz allaqachon bu buyurtma uchun fikr qoldirdingiz."
 
 msgid "Вы успешно вышли из системы."
 msgstr "Siz muvaffaqiyatli chiqdingiz."
@@ -363,16 +363,16 @@ msgid "Ответственный:"
 msgstr "Mas'ul:"
 
 msgid "Отзыв"
-msgstr "Sharh"
+msgstr "Fikriz"
 
 msgid "Отзыв доступен после завершения заявки."
-msgstr "Sharh buyurtma yakunlangandan keyin mavjud."
+msgstr "Fikriz buyurtma yakunlangandan keyin mavjud."
 
 msgid "Отзыв по заявке"
-msgstr "Buyurtma sharhi"
+msgstr "Buyurtma fikriz"
 
 msgid "Отзывы"
-msgstr "Sharhlar"
+msgstr "Fikrlar"
 
 msgid "Отменена"
 msgstr "Bekor qilindi"
@@ -525,7 +525,7 @@ msgid "Страница"
 msgstr "Sahifa"
 
 msgid "Текст отзыва"
-msgstr "Sharh matni"
+msgstr "Fikriz matni"
 
 msgid "Телефон"
 msgstr "Telefon"
@@ -591,7 +591,7 @@ msgid "шт"
 msgstr "dona"
 
 msgid "от"
-msgstr "dan"
+msgstr ""
 
 msgid "за"
 msgstr "uchun"
@@ -609,7 +609,7 @@ msgid "Всего клиентов"
 msgstr "Jami mijozlar"
 
 msgid "Отзывов"
-msgstr "Sharhlar"
+msgstr "Fikrlar"
 
 msgid "Средняя оценка"
 msgstr "O'rtacha baho"
@@ -642,7 +642,7 @@ msgid "Количество заявок"
 msgstr "Buyurtmalar soni"
 
 msgid "Отзывы по оценкам"
-msgstr "Baho bo'yicha sharhlar"
+msgstr "Baho bo'yicha fikrlar"
 
 msgid "Оценка"
 msgstr "Baholash"
@@ -653,3 +653,146 @@ msgstr "Operatorlar statistikasi"
 msgid "Назначено заявок"
 msgstr "Tayinlangan buyurtmalar"
 
+msgid "Каталог услуг"
+msgstr "Xizmatlar katalogi"
+
+msgid "Перейти в каталог"
+msgstr "Katalogga o'tish"
+
+msgid "Поиск"
+msgstr "Qidirish"
+
+msgid "Сохранить заметки"
+msgstr "Eslatmalarni saqlash"
+
+msgid "Сохранить изменения"
+msgstr "O'zgarishlarni saqlash"
+
+msgid "Добавить"
+msgstr "Qo'shish"
+
+msgid "Комментарии"
+msgstr "Izohlar"
+
+msgid "Комментариев пока нет."
+msgstr "Hozircha izohlar yo'q."
+
+msgid "Информация"
+msgstr "Ma'lumot"
+
+msgid "Комментарий клиента"
+msgstr "Mijoz izohi"
+
+msgid "Отзыв клиента"
+msgstr "Mijoz fikri"
+
+msgid "Оставлен"
+msgstr "Qoldirilgan"
+
+msgid "Внутренние заметки:"
+msgstr "Ichki eslatmalar:"
+
+msgid "Не назначен"
+msgstr "Tayinlanmagan"
+
+msgid "Страница"
+msgstr "Sahifa"
+
+msgid "из"
+msgstr "dan"
+
+msgid "Клиенты не найдены."
+msgstr "Mijozlar topilmadi."
+
+msgid "Нет заявок."
+msgstr "Buyurtmalar yo'q."
+
+msgid "Последний заказ"
+msgstr "Oxirgi buyurtma"
+
+msgid "Заявок"
+msgstr "Buyurtmalar"
+
+msgid "Все клиенты"
+msgstr "Barcha mijozlar"
+
+msgid "Ваш комментарий"
+msgstr "Sizning izohingiz"
+
+msgid "Ваш отзыв"
+msgstr "Sizning fikringiz"
+
+msgid "Заявка завершена"
+msgstr "Buyurtma yakunlandi"
+
+msgid "Пожалуйста, оставьте отзыв о качестве выполненной работы"
+msgstr "Iltimos, bajarilgan ish sifatiga fikrizi qoldiring"
+
+msgid "Оставить отзыв"
+msgstr "Fikrizi qoldirin"
+
+msgid "Ответственный оператор:"
+msgstr "Mas'ul operator:"
+
+msgid "Приоритет:"
+msgstr "Ustuvorlik:"
+
+msgid "Клиент:"
+msgstr "Mijoz:"
+
+msgid "Услуга:"
+msgstr "Xizmat:"
+
+msgid "Параметры расчета цены:"
+msgstr "Narxlarni hisoblash parametrlari:"
+
+msgid "Ваш комментарий:"
+msgstr "Sizning izohingiz:"
+
+msgid "Оценка:"
+msgstr "Baho:"
+
+msgid "Оставлен:"
+msgstr "Qoldirgan vaxti:"
+
+msgid "Комментарий клиента:"
+msgstr "Mijozning fikri:"
+
+msgid "Последний заказ:"
+msgstr "Oxirgi buyurtma:"
+
+msgid "Поиск (телефон, email, telegram, instagram)"
+msgstr "Qidiruv (telefon, elektron pochta, Telegram, Instagram)"
+
+msgid "Каталог"
+msgstr "Katalog"
+
+msgid "Калькулятор цены"
+msgstr "Narx kalkulyatori"
+
+msgid "Введите количество единиц для расчета стоимости"
+msgstr "Narxni hisoblash uchun birliklar sonini kiriting"
+
+msgid "Рассчитать цену"
+msgstr "Narxni hisoblang"
+
+msgid "Оформить заявку"
+msgstr "Murojaat yuborish"
+
+msgid "Назад к каталогу"
+msgstr "Katalogga qaytish"
+
+msgid "Подробное описание"
+msgstr "Batafsil tavsif"
+
+msgid "Поддержка"
+msgstr "Yordam xizmati"
+
+msgid "Зарегистрироваться"
+msgstr "Ro'yxatdan o'tish"
+
+msgid "сервисные услуги"
+msgstr "xizmat ko'rsatish xizmatlari"
+
+msgid "Введите площадь помещения для расчета стоимости"
+msgstr "Narxni hisoblash uchun xonaning maydonini kiriting"
