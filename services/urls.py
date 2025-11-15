@@ -24,7 +24,7 @@ urlpatterns = [
         ),
         name="login",
     ),
-    path("logout/", LogoutView.as_view(next_page="services:service_list"), name="logout"),
+    path("logout/", LogoutView.as_view(next_page="services:service_list", http_method_names=["get", "post"]), name="logout"),
     path("orders/new/", OrderCreateView.as_view(), name="order_create"),
     path("orders/<int:pk>/", OrderDetailView.as_view(), name="order_detail"),
     path("dashboard/", DashboardView.as_view(), name="dashboard"),

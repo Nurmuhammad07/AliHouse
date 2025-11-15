@@ -44,7 +44,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -52,6 +51,14 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# WhiteNoise только для продакшена (когда не DEBUG)
+if not DEBUG:
+    try:
+        import whitenoise
+        MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
+    except ImportError:
+        pass
 
 ROOT_URLCONF = "core.urls"
 
@@ -107,7 +114,12 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # WhiteNoise для статики в продакшене
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+if not DEBUG:
+    try:
+        import whitenoise
+        STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    except ImportError:
+        pass
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
