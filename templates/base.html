@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="description" content="Профессиональные сервисные услуги. Быстро, качественно, надежно.">
     <meta name="theme-color" content="#ff6b35">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="AliHouse">
     <link rel="manifest" href="{% static 'manifest.json' %}">
@@ -21,57 +21,148 @@
     <script src="{% static 'js/theme.js' %}" defer></script>
     <script src="{% static 'js/pwa.js' %}" defer></script>
 </head>
-<body>
-    <header class="site-header">
-        <div class="container header-bar">
-            <a href="{% url 'services:landing' %}" class="brand">AliHouse</a>
-            <nav class="nav" data-open="false">
-                <a href="{% url 'services:service_list' %}">{% trans "Каталог" %}</a>
-                {% if request.user.is_authenticated %}
-                    {% if request.user.role == 'admin' or request.user.role == 'operator' %}
-                        <a href="{% url 'crm:dashboard' %}">CRM</a>
-                        {% if request.resolver_match.namespace == 'crm' %}
-                            <a href="{% url 'crm:statistics' %}">{% trans "Статистика" %}</a>
-                        {% endif %}
-                    {% endif %}
-                    <a href="{% url 'services:dashboard' %}">{% trans "Мои заявки" %}</a>
-                    <a href="{% url 'services:logout' %}">{% trans "Выйти" %}</a>
-                {% else %}
-                    <a href="{% url 'services:login' %}">{% trans "Войти" %}</a>
-                    <a class="button ghost" href="{% url 'services:signup' %}">{% trans "Регистрация" %}</a>
+<body{% if request.resolver_match.namespace == 'crm' %} class="crm-page"{% endif %}>
+    {% if request.resolver_match.namespace == 'crm' %}
+        <!-- CRM Mobile Menu Toggle -->
+        <button class="crm-mobile-toggle" type="button" aria-label="{% trans 'Меню' %}" onclick="document.querySelector('.crm-sidebar').setAttribute('data-open', document.querySelector('.crm-sidebar').getAttribute('data-open') === 'true' ? 'false' : 'true')">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 5H17M3 10H17M3 15H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <!-- CRM Left Sidebar -->
+        <aside class="crm-sidebar" data-open="false">
+            <div class="crm-sidebar-header">
+                <a href="{% url 'crm:dashboard' %}" class="crm-sidebar-brand">CRM</a>
+            </div>
+            <nav class="crm-sidebar-nav">
+                {% if request.user.is_authenticated and request.user.role == 'admin' or request.user.is_authenticated and request.user.role == 'operator' %}
+                    <a href="{% url 'crm:dashboard' %}" class="crm-sidebar-link{% if request.resolver_match.url_name == 'dashboard' %} active{% endif %}">
+                        <svg class="crm-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 3H8V9H3V3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 3H17V9H12V3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 11H8V17H3V11Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 11H17V17H12V11Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>{% trans "Дашборд" %}</span>
+                    </a>
+                    <a href="{% url 'crm:orders' %}" class="crm-sidebar-link{% if request.resolver_match.url_name == 'orders' or request.resolver_match.url_name == 'order-detail' %} active{% endif %}">
+                        <svg class="crm-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 3H16C16.5523 3 17 3.44772 17 4V16C17 16.5523 16.5523 17 16 17H4C3.44772 17 3 16.5523 3 16V4C3 3.44772 3.44772 3 4 3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 7H13M7 10H13M7 13H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>{% trans "Заявки" %}</span>
+                    </a>
+                    <a href="{% url 'crm:customers' %}" class="crm-sidebar-link{% if request.resolver_match.url_name == 'customers' or request.resolver_match.url_name == 'customer-detail' %} active{% endif %}">
+                        <svg class="crm-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 10C12.2091 10 14 8.20914 14 6C14 3.79086 12.2091 2 10 2C7.79086 2 6 3.79086 6 6C6 8.20914 7.79086 10 10 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3.42004 18C3.42004 15.24 6.24004 13 10 13C13.76 13 16.58 15.24 16.58 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>{% trans "Клиенты" %}</span>
+                    </a>
+                    <a href="{% url 'crm:users' %}" class="crm-sidebar-link{% if request.resolver_match.url_name == 'users' %} active{% endif %}">
+                        <svg class="crm-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 10C11.6569 10 13 8.65685 13 7C13 5.34315 11.6569 4 10 4C8.34315 4 7 5.34315 7 7C7 8.65685 8.34315 10 10 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3.33337 18.3333C3.33337 15.5719 6.23859 13.3333 10.0000 13.3333C13.7615 13.3333 16.6667 15.5719 16.6667 18.3333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>{% trans "Все пользователи" %}</span>
+                    </a>
                 {% endif %}
             </nav>
-            <div class="header-controls">
-                <form action="{% url 'services:set_language' %}" method="post" class="language-switcher">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                    <select name="language" class="language-select" onchange="this.form.submit()">
-                        {% get_current_language as CURRENT_LANGUAGE %}
-                        {% get_available_languages as LANGUAGES %}
-                        {% for lang_code, lang_name in LANGUAGES %}
-                            <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
-                                {% if lang_code == 'ru' %}🇷🇺 {% trans "Русский" %}
-                                {% elif lang_code == 'en' %}🇬🇧 English
-                                {% elif lang_code == 'uz' %}🇺🇿 O'zbek
-                                {% else %}{{ lang_name }}
-                                {% endif %}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </form>
-                <button class="theme-toggle" type="button" aria-pressed="false" aria-label="{% trans 'Переключить тему' %}">
-                    <span class="theme-toggle__icon" aria-hidden="true">☀️</span>
-                    <span class="sr-only">{% trans "Переключить тему" %}</span>
+            <div class="crm-sidebar-footer">
+                <a href="{% url 'services:landing' %}" class="crm-sidebar-link crm-sidebar-link-home">
+                    <svg class="crm-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 10L10 3L17 10M5 10V16C5 16.5523 5.44772 17 6 17H9V13C9 12.4477 9.44772 12 10 12H10.01C10.5623 12 11.01 12.4477 11.01 13V17H14C14.5523 17 15 16.5523 15 16V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>{% trans "На сайт" %}</span>
+                </a>
+                <div class="crm-sidebar-controls">
+                    <form action="{% url 'services:set_language' %}" method="post" class="language-switcher">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                        <select name="language" class="language-select" onchange="this.form.submit()">
+                            {% get_current_language as CURRENT_LANGUAGE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% for lang_code, lang_name in LANGUAGES %}
+                                <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
+                                    {% if lang_code == 'ru' %}🇷🇺 {% trans "Русский" %}
+                                    {% elif lang_code == 'en' %}🇬🇧 English
+                                    {% elif lang_code == 'uz' %}🇺🇿 O'zbek
+                                    {% else %}{{ lang_name }}
+                                    {% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="{% trans 'Переключить тему' %}">
+                        <svg class="crm-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 3V1M10 19V17M17 10H19M1 10H3M15.657 4.343L16.778 3.222M3.222 16.778L4.343 15.657M15.657 15.657L16.778 16.778M3.222 3.222L4.343 4.343" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                        <span class="sr-only">{% trans "Переключить тему" %}</span>
+                    </button>
+                </div>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'services:logout' %}" class="crm-sidebar-link">
+                        <svg class="crm-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 17H4C3.46957 17 2.96086 16.7893 2.58579 16.4142C2.21071 16.0391 2 15.5304 2 15V5C2 4.46957 2.21071 3.96086 2.58579 3.58579C2.96086 3.21071 3.46957 3 4 3H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M13 14L17 10L13 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17 10H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>{% trans "Выйти" %}</span>
+                    </a>
+                {% endif %}
+            </div>
+        </aside>
+    {% else %}
+        <!-- Regular Top Header -->
+        <header class="site-header">
+            <div class="container header-bar">
+                <a href="{% url 'services:landing' %}" class="brand">AliHouse</a>
+                <nav class="nav" data-open="false">
+                    <a href="{% url 'services:service_list' %}">{% trans "Каталог" %}</a>
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.role == 'admin' or request.user.role == 'operator' %}
+                            <a href="{% url 'crm:dashboard' %}">CRM</a>
+                        {% endif %}
+                        <a href="{% url 'services:dashboard' %}">{% trans "Мои заявки" %}</a>
+                        <a href="{% url 'services:logout' %}">{% trans "Выйти" %}</a>
+                    {% else %}
+                        <a href="{% url 'services:login' %}">{% trans "Войти" %}</a>
+                        <a class="button ghost" href="{% url 'services:signup' %}">{% trans "Регистрация" %}</a>
+                    {% endif %}
+                </nav>
+                <div class="header-controls">
+                    <form action="{% url 'services:set_language' %}" method="post" class="language-switcher">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                        <select name="language" class="language-select" onchange="this.form.submit()">
+                            {% get_current_language as CURRENT_LANGUAGE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% for lang_code, lang_name in LANGUAGES %}
+                                <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
+                                    {% if lang_code == 'ru' %}🇷🇺 {% trans "Русский" %}
+                                    {% elif lang_code == 'en' %}🇬🇧 English
+                                    {% elif lang_code == 'uz' %}🇺🇿 O'zbek
+                                    {% else %}{{ lang_name }}
+                                    {% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="{% trans 'Переключить тему' %}">
+                        <span class="theme-toggle__icon" aria-hidden="true">☀️</span>
+                        <span class="sr-only">{% trans "Переключить тему" %}</span>
+                    </button>
+                </div>
+                <button class="menu-toggle" type="button" aria-expanded="false" aria-label="{% trans 'Меню' %}">
+                    <span class="menu-toggle__line"></span>
+                    <span class="menu-toggle__line"></span>
+                    <span class="menu-toggle__line"></span>
                 </button>
             </div>
-            <button class="menu-toggle" type="button" aria-expanded="false" aria-label="{% trans 'Меню' %}">
-                <span class="menu-toggle__line"></span>
-                <span class="menu-toggle__line"></span>
-                <span class="menu-toggle__line"></span>
-            </button>
-        </div>
-    </header>
-    <main class="container">
+        </header>
+    {% endif %}
+    <main class="container{% if request.resolver_match.namespace == 'crm' %} crm-main{% endif %}">
         {% if messages %}
             <div class="messages">
                 {% for message in messages %}

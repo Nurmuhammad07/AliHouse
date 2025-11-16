@@ -53,6 +53,21 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# Security Headers
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0  # 1 year, только в production
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True if not DEBUG else False
+SECURE_HSTS_PRELOAD = True if not DEBUG else False
+SECURE_SSL_REDIRECT = False  # Установите True если используете reverse proxy с SSL
+SESSION_COOKIE_SECURE = not DEBUG  # True в production (требует HTTPS)
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = not DEBUG  # True в production (требует HTTPS)
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SAMESITE = "Lax"
+
 # WhiteNoise только для продакшена (когда не DEBUG)
 if not DEBUG:
     try:
@@ -86,7 +101,12 @@ database_url = os.environ.get("DATABASE_URL", "").strip()
 use_sqlite = os.environ.get("USE_SQLITE", "0").lower() in {"1", "true", "yes"}
 
 if database_url:
-    default_db = dj_database_url.parse(database_url, conn_max_age=600, ssl_require=False)
+    # В production всегда используйте SSL для подключения к БД
+    default_db = dj_database_url.parse(
+        database_url,
+        conn_max_age=600,
+        ssl_require=not DEBUG,  # SSL обязателен в production
+    )
 elif use_sqlite:
     default_db = {
         "ENGINE": "django.db.backends.sqlite3",

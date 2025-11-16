@@ -43,11 +43,26 @@
             {% endif %}
         {% endif %}
         
-        <div class="form-field">
-            {{ form.service.label_tag }}
-            {{ form.service }}
-            {{ form.service.errors }}
-        </div>
+        {% if service_from_url %}
+            {# Скрытое поле для проверки соответствия услуги #}
+            <input type="hidden" name="service_from_url" value="{{ service_from_url.id }}">
+            <div class="form-field">
+                <label>{% trans "Услуга" %}</label>
+                <div style="padding: 0.75rem; background: var(--surface-muted); border-radius: 6px; border: 1px solid var(--border);">
+                    <strong>{{ service_from_url.get_title }}</strong>
+                    <p class="muted small" style="margin-top: 0.25rem;">{% trans "Услуга выбрана на странице услуги и не может быть изменена" %}</p>
+                </div>
+                {# Скрытое поле для отправки ID услуги #}
+                <input type="hidden" name="service" value="{{ service_from_url.id }}">
+                {{ form.service.errors }}
+            </div>
+        {% else %}
+            <div class="form-field">
+                {{ form.service.label_tag }}
+                {{ form.service }}
+                {{ form.service.errors }}
+            </div>
+        {% endif %}
         <div class="form-field">
             {{ form.details.label_tag }}
             {{ form.details }}

@@ -71,6 +71,13 @@ body.menu-open {
     padding: 1.5rem 0;
 }
 
+/* Full-width container for CRM pages */
+body.crm-page .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem 1.5rem;
+}
+
 .row {
     display: flex;
     gap: 1rem;
@@ -713,6 +720,19 @@ textarea:focus {
     margin-bottom: 1rem;
 }
 
+.crm-filters > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.crm-filters label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+}
+
 .crm-actions {
     display: flex;
     flex-wrap: wrap;
@@ -850,5 +870,418 @@ textarea:focus {
 
     .crm-cards {
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+}
+
+/* Простые стили для CRM страниц - без анимаций и красивых эффектов */
+body.crm-page {
+    background: var(--bg);
+}
+
+/* Hide top header on CRM pages */
+body.crm-page .site-header {
+    display: none;
+}
+
+/* CRM Left Sidebar */
+.crm-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 240px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    overflow-y: auto;
+}
+
+.crm-sidebar-header {
+    padding: 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.crm-sidebar-brand {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--text);
+    text-decoration: none;
+    display: block;
+}
+
+.crm-sidebar-brand:hover {
+    color: var(--accent);
+}
+
+.crm-sidebar-nav {
+    flex: 1;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.crm-sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: none;
+    border-left: 3px solid transparent;
+}
+
+.crm-sidebar-link:hover {
+    background: var(--accent-muted);
+    color: var(--accent);
+}
+
+.crm-sidebar-link.active {
+    background: var(--accent-muted);
+    color: var(--accent);
+    border-left-color: var(--accent);
+    font-weight: 600;
+}
+
+.crm-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    stroke: currentColor;
+}
+
+.crm-sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.crm-sidebar-link-home {
+    background: var(--accent);
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.crm-sidebar-link-home:hover {
+    background: var(--accent);
+    opacity: 0.9;
+    color: white;
+}
+
+.crm-sidebar-link-home.active {
+    background: var(--accent);
+    border-left-color: transparent;
+}
+
+.crm-sidebar-link-home .crm-icon {
+    stroke: white;
+}
+
+.crm-sidebar-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.crm-sidebar-controls .language-switcher {
+    width: 100%;
+}
+
+.crm-sidebar-controls .language-select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.crm-sidebar-controls .theme-toggle {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.crm-sidebar-controls .theme-toggle:hover {
+    background: var(--accent-muted);
+}
+
+.crm-sidebar-controls .theme-toggle .crm-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Adjust main content for sidebar */
+body.crm-page .crm-main {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    max-width: none;
+    padding: 1.5rem;
+}
+
+/* Mobile responsive for CRM sidebar */
+@media (max-width: 720px) {
+    .crm-sidebar {
+        width: 200px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .crm-sidebar[data-open="true"] {
+        transform: translateX(0);
+    }
+    
+    body.crm-page .crm-main {
+        margin-left: 0;
+        width: 100%;
+        padding: 1rem;
+    }
+    
+    /* Add mobile menu toggle for CRM */
+    .crm-mobile-toggle {
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 101;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 0.5rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .crm-mobile-toggle:hover {
+        background: var(--accent-muted);
+    }
+}
+
+/* Hide mobile toggle on desktop */
+@media (min-width: 721px) {
+    .crm-mobile-toggle {
+        display: none;
+    }
+}
+
+/* Dark theme adjustments for sidebar */
+:root[data-theme="dark"] .crm-sidebar {
+    background: rgba(5, 6, 11, 0.95);
+    border-right-color: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme="dark"] .crm-sidebar-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme="dark"] .crm-sidebar-footer {
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme="dark"] .crm-sidebar-link:hover,
+:root[data-theme="dark"] .crm-sidebar-link.active {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.crm-page .card {
+    transition: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+body.crm-page .card::before {
+    display: none;
+}
+
+body.crm-page .card:hover {
+    transform: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-color: var(--border);
+}
+
+body.crm-page .button {
+    transition: none;
+    box-shadow: none;
+}
+
+body.crm-page .button::before {
+    display: none;
+}
+
+body.crm-page .button:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+body.crm-page .button.ghost {
+    box-shadow: none;
+}
+
+body.crm-page .button.ghost:hover {
+    background: var(--accent-muted);
+}
+
+body.crm-page .button.ghost::before {
+    display: none;
+}
+
+body.crm-page .crm-card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: none;
+}
+
+body.crm-page .crm-card:hover {
+    transform: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+body.crm-page .crm-table-wrapper {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+body.crm-page .eyebrow {
+    animation: none;
+}
+
+body.crm-page .hero h1 {
+    animation: none;
+}
+
+body.crm-page .narrow {
+    animation: none;
+}
+
+body.crm-page .form-card {
+    animation: none;
+}
+
+body.crm-page .crm-layout {
+    gap: 1.5rem;
+    max-width: 100%;
+}
+
+/* Removed old header styles - header is now hidden on CRM pages */
+
+body.crm-page .crm-cards {
+    gap: 1rem;
+}
+
+body.crm-page .crm-card {
+    padding: 1.25rem;
+    border-radius: 8px;
+}
+
+body.crm-page .crm-card h3 {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+body.crm-page .crm-card strong {
+    font-size: 1.75rem;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+body.crm-page .crm-table-wrapper {
+    border-radius: 8px;
+}
+
+body.crm-page .crm-table th,
+body.crm-page .crm-table td {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+}
+
+body.crm-page .crm-filters {
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+body.crm-page .input,
+body.crm-page input[type="text"],
+body.crm-page input[type="password"],
+body.crm-page input[type="email"],
+body.crm-page input[type="tel"],
+body.crm-page input[type="number"],
+body.crm-page select,
+body.crm-page textarea {
+    border-radius: 6px;
+    padding: 0.75rem;
+    transition: none;
+}
+
+body.crm-page .input:focus,
+body.crm-page input[type="text"]:focus,
+body.crm-page input[type="password"]:focus,
+body.crm-page input[type="email"]:focus,
+body.crm-page input[type="tel"]:focus,
+body.crm-page input[type="number"]:focus,
+body.crm-page select:focus,
+body.crm-page textarea:focus {
+    box-shadow: 0 0 0 2px var(--accent-muted);
+}
+
+/* Call button styles */
+body.crm-page form[action*="call"] .button {
+    background: #28a745;
+    color: white;
+    border: none;
+}
+
+body.crm-page form[action*="call"] .button:hover {
+    background: #218838;
+    color: white;
+}
+
+body.crm-page form[action*="call"] .button:active {
+    background: #1e7e34;
+}
+
+/* Responsive layout for service detail page */
+.service-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 2rem;
+    align-items: start;
+}
+
+.service-detail-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: sticky;
+    top: 1.5rem;
+}
+
+@media (max-width: 960px) {
+    .service-detail-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .service-detail-sidebar {
+        position: static !important;
     }
 }

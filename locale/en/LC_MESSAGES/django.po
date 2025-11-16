@@ -796,3 +796,33 @@ msgstr "service services"
 
 msgid "Введите площадь помещения для расчета стоимости"
 msgstr "Enter the area of ​​the room to calculate the cost"
+
+msgid "Все пользователи"
+msgstr "All users"
+
+msgid "Дата регистрации"
+msgstr "Date of registration"
+
+msgid "Действия"
+msgstr "Actions"
+
+msgid "Профиль"
+msgstr "Profile"
+
+msgid "Всего"
+msgstr "Total"
+
+msgid "пользователей"
+msgstr "users"
+
+msgid "Клиенты с заказами"
+msgstr "Customers with orders"
+
+msgid "клиентов"
+msgstr "clients"
+
+msgid "Применить"
+msgstr "Apply"
+
+msgid "Сбросить"
+msgstr "Reset"

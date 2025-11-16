@@ -95,6 +95,7 @@ class Service(models.Model):
     detailed_description_uz = models.TextField(_("Детальное описание (узбекский)"), blank=True)
     history_achievements_uz = models.TextField(_("История и достижения (узбекский)"), blank=True)
     
+    image = models.ImageField(_("Изображение"), upload_to="services/", blank=True, null=True, help_text=_("Изображение услуги для каталога"))
     price = models.DecimalField(_("Базовая цена"), max_digits=10, decimal_places=2, help_text=_("Базовая цена или цена за единицу"))
     price_type = models.CharField(_("Тип расчета цены"), max_length=20, choices=PriceType.choices, default=PriceType.FIXED)
     price_unit = models.CharField(_("Единица измерения"), max_length=50, blank=True, help_text=_("м², час, шт. и т.д."))

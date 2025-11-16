@@ -40,6 +40,9 @@ class ServiceAdmin(admin.ModelAdmin):
     get_title_display.short_description = _("Название")
     
     fieldsets = (
+        (_("Изображение"), {
+            "fields": ("image",)
+        }),
         (_("Русский язык"), {
             "fields": ("title_ru", "description_ru", "detailed_description_ru", "history_achievements_ru")
         }),

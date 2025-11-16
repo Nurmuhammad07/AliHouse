@@ -5,13 +5,20 @@
 <div class="crm-layout">
     <div class="row space-between align-center">
         <div>
-            <p class="eyebrow">CRM</p>
             <h1>{% trans "Клиенты" %}</h1>
+            {% if is_paginated %}
+                <p class="muted small">{% trans "Всего" %}: {{ paginator.count }} {% trans "клиентов" %}</p>
+            {% else %}
+                <p class="muted small">{% trans "Всего" %}: {{ customers|length }} {% trans "клиентов" %}</p>
+            {% endif %}
         </div>
-        <form method="get" class="row" style="gap:0.5rem;">
-            <input class="input" type="text" name="phone" value="{{ search_term }}" placeholder="{% trans 'Телефон' %}">
-            <button class="button" type="submit">{% trans "Поиск" %}</button>
-        </form>
+        <div class="row" style="gap: 0.5rem;">
+            <a class="button ghost" href="{% url 'crm:users' %}">{% trans "Все пользователи" %}</a>
+            <form method="get" class="row" style="gap:0.5rem;">
+                <input class="input" type="text" name="phone" value="{{ search_term }}" placeholder="{% trans 'Телефон' %}">
+                <button class="button" type="submit">{% trans "Поиск" %}</button>
+            </form>
+        </div>
     </div>
     <div class="crm-table-wrapper">
         <table class="crm-table">

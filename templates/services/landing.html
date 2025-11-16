@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="description" content="Профессиональные сервисные услуги. Быстро, качественно, надежно.">
     <meta name="theme-color" content="#ff6b35">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="AliHouse">
     <link rel="manifest" href="{% static 'manifest.json' %}">
@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&text=АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
-    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}?v=2.0">
     <script src="{% static 'js/theme.js' %}" defer></script>
     <script src="{% static 'js/pwa.js' %}" defer></script>
 </head>
@@ -97,11 +97,22 @@
             <div class="services-grid">
                 {% for service in featured_services %}
                 <div class="service-card" data-animate="fadeInUp" data-delay="{% if forloop.counter == 1 %}100{% elif forloop.counter == 2 %}200{% else %}0{% endif %}">
+                    {% if service.image %}
+                        <div class="service-card-image">
+                            <img src="{{ service.image.url }}" alt="{{ service.get_title }}">
+                        </div>
+                    {% endif %}
                     <h3>{{ service.get_title }}</h3>
-                    <p class="service-price">{{ service.price }} {% trans "So'm" %}</p>
                     <p class="service-description">{{ service.get_description|truncatewords:15 }}</p>
                 </div>
                 {% endfor %}
+                <div class="service-card service-card-more" data-animate="fadeInUp" data-delay="300">
+                    <div class="service-card-more-content">
+                        <a href="{% url 'services:service_list' %}" class="service-card-more-button">
+                            {% trans "Больше" %} →
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

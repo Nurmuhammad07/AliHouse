@@ -796,3 +796,33 @@ msgstr "xizmat ko'rsatish xizmatlari"
 
 msgid "Введите площадь помещения для расчета стоимости"
 msgstr "Narxni hisoblash uchun xonaning maydonini kiriting"
+
+msgid "Все пользователи"
+msgstr "Barcha foydalanuvchilar"
+
+msgid "Дата регистрации"
+msgstr "Ro'yxatdan o'tish sanasi"
+
+msgid "Действия"
+msgstr "Harakatlar"
+
+msgid "Профиль"
+msgstr "Profil"
+
+msgid "Всего"
+msgstr "Jami"
+
+msgid "пользователей"
+msgstr "foydalanuvchilar"
+
+msgid "Клиенты с заказами"
+msgstr "Buyurtmalari bo'lgan mijozlar"
+
+msgid "клиентов"
+msgstr "mijozlar"
+
+msgid "Применить"
+msgstr "Qo'llash"
+
+msgid "Сбросить"
+msgstr "Qayta tiklash"

@@ -5,17 +5,30 @@
 <div class="crm-layout">
     <div class="row space-between align-center">
         <div>
-            <p class="eyebrow">CRM</p>
             <h1>{% trans "Заявки" %}</h1>
         </div>
-        <a class="button ghost" href="{% url 'crm:dashboard' %}">{% trans "Дашборд" %}</a>
     </div>
     <form method="get" class="crm-filters card">
-        {{ filter_form.status }}
-        {{ filter_form.priority }}
-        {{ filter_form.assigned_to }}
-        {{ filter_form.phone }}
-        <button class="button" type="submit">{% trans "Фильтр" %}</button>
+        <div>
+            <label>{{ filter_form.status.label }}</label>
+            {{ filter_form.status }}
+        </div>
+        <div>
+            <label>{{ filter_form.priority.label }}</label>
+            {{ filter_form.priority }}
+        </div>
+        <div>
+            <label>{{ filter_form.assigned_to.label }}</label>
+            {{ filter_form.assigned_to }}
+        </div>
+        <div>
+            <label>{{ filter_form.phone.label }}</label>
+            {{ filter_form.phone }}
+        </div>
+        <div class="row" style="gap: 0.5rem; align-items: flex-end;">
+            <button class="button" type="submit">{% trans "Применить" %}</button>
+            <a class="button ghost" href="{% url 'crm:orders' %}">{% trans "Сбросить" %}</a>
+        </div>
     </form>
     <div class="crm-table-wrapper">
         <table class="crm-table">

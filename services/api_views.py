@@ -60,14 +60,34 @@ class CRMOrderListAPIView(generics.ListAPIView):
         priority = self.request.query_params.get("priority")
         operator = self.request.query_params.get("operator")
         phone = self.request.query_params.get("phone")
+        
+        # Валидация и фильтрация статуса
         if status:
-            qs = qs.filter(status=status)
+            valid_statuses = [choice[0] for choice in Order.Status.choices]
+            if status in valid_statuses:
+                qs = qs.filter(status=status)
+        
+        # Валидация и фильтрация приоритета
         if priority:
-            qs = qs.filter(priority=priority)
+            valid_priorities = [choice[0] for choice in Order.Priority.choices]
+            if priority in valid_priorities:
+                qs = qs.filter(priority=priority)
+        
+        # Валидация operator ID (только числа)
         if operator:
-            qs = qs.filter(assigned_to_id=operator)
+            try:
+                operator_id = int(operator)
+                qs = qs.filter(assigned_to_id=operator_id)
+            except (ValueError, TypeError):
+                pass  # Игнорируем невалидные значения
+        
+        # Валидация телефона (ограничение длины и очистка)
         if phone:
-            qs = qs.filter(customer__phone__icontains=phone)
+            # Ограничиваем длину поиска и очищаем от опасных символов
+            phone_clean = "".join(ch for ch in phone[:20] if ch.isdigit() or ch in "+-() ")
+            if phone_clean:
+                qs = qs.filter(customer__phone__icontains=phone_clean)
+        
         return qs
 
 
@@ -94,7 +114,10 @@ class CRMCustomerListAPIView(generics.ListAPIView):
         qs = Customer.objects.all()
         phone = self.request.query_params.get("phone")
         if phone:
-            qs = qs.filter(phone__icontains=phone)
+            # Валидация телефона (ограничение длины и очистка)
+            phone_clean = "".join(ch for ch in phone[:20] if ch.isdigit() or ch in "+-() ")
+            if phone_clean:
+                qs = qs.filter(phone__icontains=phone_clean)
         return qs
 
 

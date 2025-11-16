@@ -47,7 +47,13 @@ class SignUpForm(forms.ModelForm):
 
     def clean_phone(self):
         raw_phone = self.cleaned_data["phone"]
+        # Очистка и валидация телефона
         phone = "".join(ch for ch in raw_phone if ch.isdigit() or ch == "+")
+        # Ограничение длины
+        if len(phone) > 20:
+            raise forms.ValidationError(_("Номер телефона слишком длинный."))
+        if len(phone) < 3:
+            raise forms.ValidationError(_("Номер телефона слишком короткий."))
         if User.objects.filter(phone=phone).exists():
             raise forms.ValidationError(_("Пользователь с таким телефоном уже есть."))
         return phone
@@ -259,6 +265,11 @@ class ContactRequestForm(forms.ModelForm):
         phone = "".join(ch for ch in raw_phone if ch.isdigit() or ch == "+")
         if not phone:
             raise forms.ValidationError(_("Укажите номер телефона."))
+        # Ограничение длины
+        if len(phone) > 20:
+            raise forms.ValidationError(_("Номер телефона слишком длинный."))
+        if len(phone) < 3:
+            raise forms.ValidationError(_("Номер телефона слишком короткий."))
         return phone
 
 

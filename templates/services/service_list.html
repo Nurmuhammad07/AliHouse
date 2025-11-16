@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load static %}
 {% block title %}{% trans "Услуги" %} | AliHouse{% endblock %}
 {% block content %}
 <section class="hero">
@@ -16,6 +17,11 @@
 <section class="grid">
     {% for service in services %}
         <article class="card">
+            {% if service.image %}
+                <div style="width: 100%; border-radius: 8px; margin-bottom: 1rem; background: var(--surface-muted); overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                    <img src="{{ service.image.url }}" alt="{{ service.get_title }}" style="width: 100%; height: auto; max-height: 300px; object-fit: contain; display: block;">
+                </div>
+            {% endif %}
             <div class="row space-between align-center">
                 <h3>{{ service.get_title }}</h3>
                 <span class="price">

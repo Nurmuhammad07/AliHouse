@@ -1,10 +1,12 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n static %}
 {% block title %}CRM — {% trans "Клиент" %} {{ customer.name }}{% endblock %}
 {% block content %}
 <div class="crm-layout">
     <a class="back-link" href="{% url 'crm:customers' %}">← {% trans "Все клиенты" %}</a>
-    <h1>{{ customer.name }}</h1>
+    <div class="row space-between align-center">
+        <h1>{{ customer.name }}</h1>
+    </div>
     <section class="card">
         <p><strong>{% trans "Телефон:" %}</strong> {{ customer.phone }}</p>
         <p><strong>{% trans "Последний заказ:" %}</strong> {{ customer.last_order_at|date:"d.m.Y H:i"|default:"—" }}</p>
@@ -46,5 +48,5 @@
         </table>
     </section>
 </div>
-{% endblock %}
 
+{% endblock %}

@@ -1,10 +1,12 @@
 from datetime import timedelta
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
 from django.db import models
 from django.db.models import Count
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
@@ -19,6 +21,7 @@ from .forms import (
     CustomerNotesForm,
     FeedbackForm,
     OrderCommentForm,
+    OrderFilterForm,
     OrderForm,
     OrderUpdateForm,
     ServicePriceCalculatorForm,
@@ -43,8 +46,8 @@ class LandingPageView(TemplateView):
             context["years_working"] = max(1, years_working)
         else:
             context["years_working"] = 1
-        # Последние услуги для показа
-        context["featured_services"] = Service.objects.filter(is_active=True)[:3]
+        # Последние услуги для показа (максимум 3)
+        context["featured_services"] = list(Service.objects.filter(is_active=True).order_by('id')[:3])
         # Услуги для футера (только 2)
         context["footer_services"] = Service.objects.filter(is_active=True)[:2]
         return context
@@ -122,10 +125,12 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         # Получаем параметры расчета из GET-параметров
         service_id = self.request.GET.get("service")
+        context["service_from_url"] = None
         if service_id:
             try:
                 service = Service.objects.get(pk=service_id, is_active=True)
                 context["service"] = service
+                context["service_from_url"] = service
                 # Получаем параметры расчета
                 sqm = self.request.GET.get("sqm")
                 hours = self.request.GET.get("hours")
@@ -141,37 +146,167 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
             except Service.DoesNotExist:
                 pass
         return context
+    
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        # Если услуга передана через URL, ограничиваем выбор только этой услугой
+        service_id = self.request.GET.get("service")
+        if service_id:
+            try:
+                service = Service.objects.get(pk=service_id, is_active=True)
+                # Ограничиваем queryset только этой услугой
+                form.fields["service"].queryset = Service.objects.filter(pk=service_id, is_active=True)
+                # Устанавливаем начальное значение
+                form.initial["service"] = service_id
+                # Если услуга БЕЗ фиксированной цены (с расчетом), делаем поле details обязательным
+                # Но не показываем это визуально заранее - только при валидации
+                if service.price_type != Service.PriceType.FIXED:
+                    form.fields["details"].required = True
+                    # Не добавляем атрибут required в HTML, чтобы валидация была только на сервере
+            except Service.DoesNotExist:
+                pass
+        else:
+            # Если услуга не передана через URL, добавляем JavaScript для динамической проверки
+            # или делаем поле условно обязательным через валидацию формы
+            pass
+        return form
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         
-        # Сохраняем параметры расчета цены (из GET или POST)
+        # ВАЖНО: Проверяем, что услуга из формы соответствует услуге из URL
+        service_id_from_url = self.request.GET.get("service") or self.request.POST.get("service_from_url")
+        service_from_form = form.cleaned_data.get("service")
+        
+        # Если поле было disabled, оно не попадет в cleaned_data, берем из POST
+        if not service_from_form and service_id_from_url:
+            try:
+                service_from_form = Service.objects.get(pk=service_id_from_url, is_active=True)
+            except Service.DoesNotExist:
+                form.add_error("service", _("Указанная услуга не найдена или неактивна"))
+                return self.form_invalid(form)
+        
+        # Проверяем соответствие услуги из URL и формы
+        if service_id_from_url and str(service_from_form.id) != str(service_id_from_url):
+            form.add_error("service", _("Нельзя изменить услугу. Пожалуйста, вернитесь на страницу услуги и создайте заявку заново."))
+            return self.form_invalid(form)
+        
+        service = service_from_form
+        
+        # ВАЖНО: Валидация соответствия параметров расчета типу услуги
+        if not service:
+            form.add_error("service", _("Услуга обязательна для заполнения"))
+            return self.form_invalid(form)
+        
+        # Для услуг БЕЗ фиксированной цены (с расчетом) поле details обязательно
+        if service.price_type != Service.PriceType.FIXED:
+            details = form.cleaned_data.get("details", "").strip()
+            if not details:
+                form.add_error("details", _("Для услуг с расчетом цены необходимо указать детали заявки. Пожалуйста, опишите, что именно вам нужно."))
+                return self.form_invalid(form)
+        
+        # Получаем параметры расчета из POST (приоритет) или GET
         sqm = self.request.POST.get("sqm") or self.request.GET.get("sqm")
         hours = self.request.POST.get("hours") or self.request.GET.get("hours")
         items = self.request.POST.get("items") or self.request.GET.get("items")
-        calculated_price = self.request.POST.get("calculated_price") or self.request.GET.get("calculated_price")
+        calculated_price_param = self.request.POST.get("calculated_price") or self.request.GET.get("calculated_price")
         
+        # Валидация: проверяем, что параметры расчета соответствуют типу услуги
+        if service.price_type == Service.PriceType.PER_SQM:
+            if not sqm:
+                form.add_error(None, _("Для услуги с расчетом за м² необходимо указать площадь"))
+                return self.form_invalid(form)
+            if hours or items:
+                form.add_error(None, _("Для данной услуги недопустимы параметры часов или единиц"))
+                return self.form_invalid(form)
+        elif service.price_type == Service.PriceType.PER_HOUR:
+            if not hours:
+                form.add_error(None, _("Для услуги с расчетом за час необходимо указать количество часов"))
+                return self.form_invalid(form)
+            if sqm or items:
+                form.add_error(None, _("Для данной услуги недопустимы параметры площади или единиц"))
+                return self.form_invalid(form)
+        elif service.price_type == Service.PriceType.PER_ITEM:
+            if not items:
+                form.add_error(None, _("Для услуги с расчетом за единицу необходимо указать количество"))
+                return self.form_invalid(form)
+            if sqm or hours:
+                form.add_error(None, _("Для данной услуги недопустимы параметры площади или часов"))
+                return self.form_invalid(form)
+        elif service.price_type == Service.PriceType.FIXED:
+            if sqm or hours or items:
+                form.add_error(None, _("Для услуги с фиксированной ценой недопустимы параметры расчета"))
+                return self.form_invalid(form)
+        
+        # Валидация с разумными лимитами
         if sqm:
             try:
-                form.instance.price_calculation_sqm = float(sqm)
+                sqm_float = float(sqm)
+                if 0 <= sqm_float <= 1000000:  # Разумный лимит
+                    form.instance.price_calculation_sqm = sqm_float
             except (ValueError, TypeError):
                 pass
         
         if hours:
             try:
-                form.instance.price_calculation_hours = float(hours)
+                hours_float = float(hours)
+                if 0 <= hours_float <= 10000:  # Разумный лимит
+                    form.instance.price_calculation_hours = hours_float
             except (ValueError, TypeError):
                 pass
         
         if items:
             try:
-                form.instance.price_calculation_items = int(items)
+                items_int = int(items)
+                if 0 <= items_int <= 1000000:  # Разумный лимит
+                    form.instance.price_calculation_items = items_int
             except (ValueError, TypeError):
                 pass
         
-        if calculated_price:
+        # Пересчитываем цену на сервере для безопасности
+        # Это гарантирует, что пользователь не может подделать цену
+        sqm_float = None
+        hours_float = None
+        items_int = None
+        
+        if sqm:
             try:
-                form.instance.calculated_price = float(calculated_price)
+                sqm_float = float(sqm)
+            except (ValueError, TypeError):
+                pass
+        
+        if hours:
+            try:
+                hours_float = float(hours)
+            except (ValueError, TypeError):
+                pass
+        
+        if items:
+            try:
+                items_int = int(items)
+            except (ValueError, TypeError):
+                pass
+        
+        # Пересчитываем цену на основе реальных параметров услуги
+        recalculated_price = service.calculate_price(
+            sqm=sqm_float or 0,
+            hours=hours_float or 0,
+            items=items_int or 0
+        )
+        
+        # Сохраняем пересчитанную цену (игнорируем переданную пользователем)
+        form.instance.calculated_price = recalculated_price
+        
+        # Проверяем, что переданная цена (если есть) не сильно отличается от пересчитанной
+        # Допускаем небольшую погрешность из-за округления
+        if calculated_price_param:
+            try:
+                user_price = float(calculated_price_param)
+                price_diff = abs(user_price - recalculated_price)
+                # Если разница больше 1% или 1000 сум, это подозрительно
+                if price_diff > max(recalculated_price * 0.01, 1000):
+                    form.add_error(None, _("Обнаружено несоответствие в расчете цены. Пожалуйста, пересчитайте цену."))
+                    return self.form_invalid(form)
             except (ValueError, TypeError):
                 pass
         
@@ -378,11 +513,11 @@ class CRMOrderListView(OperatorOrAdminRequiredMixin, ListView):
     paginate_by = 20
 
     def get_queryset(self):
-        queryset = Order.objects.select_related("user", "service", "assigned_to").order_by("-created_at")
+        queryset = Order.objects.select_related("user", "service", "assigned_to", "customer").order_by("-created_at")
         status = self.request.GET.get("status")
         priority = self.request.GET.get("priority")
         assigned_to = self.request.GET.get("assigned_to")
-        search = self.request.GET.get("search")
+        phone = self.request.GET.get("phone") or self.request.GET.get("search")  # Поддержка обоих параметров
 
         if status:
             queryset = queryset.filter(status=status)
@@ -390,19 +525,38 @@ class CRMOrderListView(OperatorOrAdminRequiredMixin, ListView):
             queryset = queryset.filter(priority=priority)
         if assigned_to:
             queryset = queryset.filter(assigned_to__id=assigned_to)
-        if search:
-            queryset = queryset.filter(user__phone__icontains=search)
+        if phone:
+            # Ищем в user.phone и customer.phone
+            queryset = queryset.filter(
+                models.Q(user__phone__icontains=phone) | models.Q(customer__phone__icontains=phone)
+            )
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["statuses"] = Order.Status.choices
-        context["priorities"] = Order.Priority.choices
-        context["operators"] = User.objects.filter(role__in=[User.Role.ADMIN, User.Role.OPERATOR])
-        context["current_status"] = self.request.GET.get("status", "")
-        context["current_priority"] = self.request.GET.get("priority", "")
-        context["current_assigned_to"] = self.request.GET.get("assigned_to", "")
-        context["current_search"] = self.request.GET.get("search", "")
+        operators = User.objects.filter(role__in=[User.Role.ADMIN, User.Role.OPERATOR])
+        
+        # Создаем форму с операторами и инициализируем её текущими GET-параметрами
+        # Если есть параметр search, преобразуем его в phone для совместимости
+        get_data = self.request.GET.copy()
+        if "search" in get_data and "phone" not in get_data:
+            get_data["phone"] = get_data["search"]
+        
+        filter_form = OrderFilterForm(
+            operators=operators,
+            data=get_data if get_data else None,
+        )
+        
+        context["filter_form"] = filter_form
+        context["operators"] = operators
+        
+        # Сохраняем querystring для пагинации (исключая page)
+        querystring_parts = []
+        for key, value in self.request.GET.items():
+            if key != "page" and value:
+                querystring_parts.append(f"{key}={value}")
+        context["querystring"] = "&".join(querystring_parts)
+        
         return context
 
 
@@ -482,15 +636,46 @@ class CRMCustomerListView(OperatorOrAdminRequiredMixin, ListView):
     paginate_by = 20
 
     def get_queryset(self):
-        queryset = Customer.objects.all().order_by("-created_at")
-        search = self.request.GET.get("search")
+        # Используем prefetch_related для оптимизации, но не annotate, чтобы избежать проблем с группировкой
+        queryset = Customer.objects.all().prefetch_related("orders").order_by("-created_at")
+        search = self.request.GET.get("phone") or self.request.GET.get("search")
         if search:
             queryset = queryset.filter(phone__icontains=search)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["current_search"] = self.request.GET.get("search", "")
+        context["search_term"] = self.request.GET.get("phone", "") or self.request.GET.get("search", "")
+        return context
+
+
+class CRMUsersListView(OperatorOrAdminRequiredMixin, ListView):
+    """Список всех пользователей (Users), включая тех, у кого нет заказов или только один заказ."""
+    model = User
+    template_name = "crm/users_list.html"
+    context_object_name = "users"
+    paginate_by = 20
+
+    def get_queryset(self):
+        # Показываем всех пользователей с ролью USER (клиенты)
+        # Используем select_related и prefetch_related для оптимизации
+        queryset = User.objects.filter(role=User.Role.USER).select_related(
+            "customer_profile"
+        ).prefetch_related(
+            "orders"
+        ).annotate(
+            orders_count=Count("orders")
+        ).order_by("-date_joined")
+        
+        search = self.request.GET.get("phone") or self.request.GET.get("search")
+        if search:
+            queryset = queryset.filter(phone__icontains=search)
+        
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_term"] = self.request.GET.get("phone", "") or self.request.GET.get("search", "")
         return context
 
 
