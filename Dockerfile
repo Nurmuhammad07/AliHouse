@@ -10,9 +10,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Собираем статику
-RUN python manage.py collectstatic --noinput || true
-
-# PORT будет установлен платформой (Railway/Render)
-CMD gunicorn core.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 2
+CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]
 

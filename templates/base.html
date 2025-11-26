@@ -21,7 +21,7 @@
     <script src="{% static 'js/theme.js' %}" defer></script>
     <script src="{% static 'js/pwa.js' %}" defer></script>
 </head>
-<body{% if request.resolver_match.namespace == 'crm' %} class="crm-page"{% endif %}>
+<body {% if request.resolver_match.namespace == 'crm' %} class="crm-page"{% endif %}>
     {% if request.resolver_match.namespace == 'crm' %}
         <!-- CRM Mobile Menu Toggle -->
         <button class="crm-mobile-toggle" type="button" aria-label="{% trans 'Меню' %}" onclick="document.querySelector('.crm-sidebar').setAttribute('data-open', document.querySelector('.crm-sidebar').getAttribute('data-open') === 'true' ? 'false' : 'true')">
